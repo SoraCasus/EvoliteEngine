@@ -8,6 +8,7 @@ Planned features:
 - [ ] Animation
 - [ ] Interactive GUI
 
+
 Todo:
 - [x] Uniforms
 - [x] Rewrite shader system
