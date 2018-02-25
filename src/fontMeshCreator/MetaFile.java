@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.opengl.Display;
+import util.EEFile;
 
 /**
  * Provides functionality for getting the values from a font file.
- * 
- * @author Karl
  *
+ * @author Karl
  */
 public class MetaFile {
 
@@ -43,11 +43,10 @@ public class MetaFile {
 
 	/**
 	 * Opens a font file in preparation for reading.
-	 * 
-	 * @param file
-	 *            - the font file.
+	 *
+	 * @param file - the font file.
 	 */
-	protected MetaFile(File file) {
+	protected MetaFile (EEFile file) {
 		this.aspectRatio = (double) Display.getWidth() / (double) Display.getHeight();
 		openFile(file);
 		loadPaddingData();
@@ -57,20 +56,20 @@ public class MetaFile {
 		close();
 	}
 
-	protected double getSpaceWidth() {
+	protected double getSpaceWidth () {
 		return spaceWidth;
 	}
 
-	protected Character getCharacter(int ascii) {
+	protected Character getCharacter (int ascii) {
 		return metaData.get(ascii);
 	}
 
 	/**
 	 * Read in the next line and store the variable values.
-	 * 
+	 *
 	 * @return {@code true} if the end of the file hasn't been reached.
 	 */
-	private boolean processNextLine() {
+	private boolean processNextLine () {
 		values.clear();
 		String line = null;
 		try {
@@ -92,23 +91,21 @@ public class MetaFile {
 	/**
 	 * Gets the {@code int} value of the variable with a certain name on the
 	 * current line.
-	 * 
-	 * @param variable
-	 *            - the name of the variable.
+	 *
+	 * @param variable - the name of the variable.
 	 * @return The value of the variable.
 	 */
-	private int getValueOfVariable(String variable) {
+	private int getValueOfVariable (String variable) {
 		return Integer.parseInt(values.get(variable));
 	}
 
 	/**
 	 * Gets the array of ints associated with a variable on the current line.
-	 * 
-	 * @param variable
-	 *            - the name of the variable.
+	 *
+	 * @param variable - the name of the variable.
 	 * @return The int array of values associated with the variable.
 	 */
-	private int[] getValuesOfVariable(String variable) {
+	private int[] getValuesOfVariable (String variable) {
 		String[] numbers = values.get(variable).split(NUMBER_SEPARATOR);
 		int[] actualValues = new int[numbers.length];
 		for (int i = 0; i < actualValues.length; i++) {
@@ -120,7 +117,7 @@ public class MetaFile {
 	/**
 	 * Closes the font file after finishing reading.
 	 */
-	private void close() {
+	private void close () {
 		try {
 			reader.close();
 		} catch (IOException e) {
@@ -130,13 +127,12 @@ public class MetaFile {
 
 	/**
 	 * Opens the font file, ready for reading.
-	 * 
-	 * @param file
-	 *            - the font file.
+	 *
+	 * @param file - the font file.
 	 */
-	private void openFile(File file) {
+	private void openFile (EEFile file) {
 		try {
-			reader = new BufferedReader(new FileReader(file));
+			reader = file.getReader();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Couldn't read font meta file!");
@@ -147,7 +143,7 @@ public class MetaFile {
 	 * Loads the data about how much padding is used around each character in
 	 * the texture atlas.
 	 */
-	private void loadPaddingData() {
+	private void loadPaddingData () {
 		processNextLine();
 		this.padding = getValuesOfVariable("padding");
 		this.paddingWidth = padding[PAD_LEFT] + padding[PAD_RIGHT];
@@ -159,7 +155,7 @@ public class MetaFile {
 	 * this as a way to find the conversion rate between pixels in the texture
 	 * atlas and screen-space.
 	 */
-	private void loadLineSizes() {
+	private void loadLineSizes () {
 		processNextLine();
 		int lineHeightPixels = getValueOfVariable("lineHeight") - paddingHeight;
 		verticalPerPixelSize = TextMeshCreator.LINE_HEIGHT / (double) lineHeightPixels;
@@ -169,11 +165,10 @@ public class MetaFile {
 	/**
 	 * Loads in data about each character and stores the data in the
 	 * {@link Character} class.
-	 * 
-	 * @param imageWidth
-	 *            - the width of the texture atlas in pixels.
+	 *
+	 * @param imageWidth - the width of the texture atlas in pixels.
 	 */
-	private void loadCharacterData(int imageWidth) {
+	private void loadCharacterData (int imageWidth) {
 		processNextLine();
 		processNextLine();
 		while (processNextLine()) {
@@ -188,12 +183,11 @@ public class MetaFile {
 	 * Loads all the data about one character in the texture atlas and converts
 	 * it all from 'pixels' to 'screen-space' before storing. The effects of
 	 * padding are also removed from the data.
-	 * 
-	 * @param imageSize
-	 *            - the size of the texture atlas in pixels.
+	 *
+	 * @param imageSize - the size of the texture atlas in pixels.
 	 * @return The data about the character.
 	 */
-	private Character loadCharacter(int imageSize) {
+	private Character loadCharacter (int imageSize) {
 		int id = getValueOfVariable("id");
 		if (id == TextMeshCreator.SPACE_ASCII) {
 			this.spaceWidth = (getValueOfVariable("xadvance") - paddingWidth) * horizontalPerPixelSize;

@@ -30,11 +30,7 @@ public class TextMaster {
 		TextMeshData data = font.loadText(text);
 		int vao = loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
 		text.setMeshInfo(vao, data.getVertexCount());
-		List<GUIText> textBatch = texts.get(font);
-		if(textBatch == null){
-			textBatch = new ArrayList<GUIText>();
-			texts.put(font, textBatch);
-		}
+		List<GUIText> textBatch = texts.computeIfAbsent(font, k -> new ArrayList<>());
 		textBatch.add(text);
 	}
 	

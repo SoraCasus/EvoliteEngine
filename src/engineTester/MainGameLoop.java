@@ -72,7 +72,7 @@ public class MainGameLoop {
 		MasterRenderer renderer = new MasterRenderer(loader, camera);
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 
-		FontType font = new FontType(loader.loadTextureAtlas("font/candara"), new File("res/font/candara.fnt"));
+		FontType font = new FontType(loader.loadTextureAtlas("font/candara"), new EEFile("font/candara.fnt"));
 		GUIText text = new GUIText("This is a test text", 3, font, new Vector2f(0.0f, 0.4f), 1.0f, true);
 		text.setColour(0.1f, 0.1f, 0.1f);
 
@@ -111,8 +111,8 @@ public class MainGameLoop {
 		flower.getTexture().setUseFakeLighting(true);
 		fern.getTexture().setHasTransparency(true);
 
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, new EEFile("textures/terrain/heightmap/customHeightMap.png"));
-		// Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, 256);
+		// Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, new EEFile("textures/terrain/heightmap/customHeightMap.png"));
+		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, 256);
 		List<Terrain> terrains = new ArrayList<>();
 		terrains.add(terrain);
 
@@ -165,7 +165,7 @@ public class MainGameLoop {
 		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
 		List<Light> lights = new ArrayList<Light>();
 		//lights.add(light);
-		Light sun = new Light(new Vector3f(00000000, 10000000, -10000000), new Vector3f(1.0f, 1.0f, 1.0f));
+		Light sun = new Light(new Vector3f(10000000, 10000000, -10000000), new Vector3f(1.0f, 1.0f, 1.0f));
 		lights.add(sun);
 		lights.add(new Light(new Vector3f(185, terrain.getHeightOfTerrain(185, -293) + 30, -293), new Vector3f(4, 0, 0),
 				new Vector3f(1, 0.01f, 0.002f)));
