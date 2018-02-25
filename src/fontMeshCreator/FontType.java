@@ -1,5 +1,7 @@
 package fontMeshCreator;
 
+import util.EEFile;
+
 import java.io.File;
 
 /**
@@ -24,7 +26,7 @@ public class FontType {
 	 *            - the font file containing information about each character in
 	 *            the texture atlas.
 	 */
-	public FontType(int textureAtlas, File fontFile) {
+	public FontType(int textureAtlas, EEFile fontFile) {
 		this.textureAtlas = textureAtlas;
 		this.loader = new TextMeshCreator(fontFile);
 	}

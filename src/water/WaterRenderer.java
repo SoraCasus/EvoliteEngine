@@ -20,7 +20,7 @@ import util.EEFile;
 
 public class WaterRenderer {
 
-	private static final EEFile DUDV_MAP = new EEFile("textures/water/waterDUDV.png");
+	private static final EEFile DUDV_MAP = new EEFile("textures/water/dudv.png");
 	private static final EEFile NORMAL_MAP = new EEFile("textures/normal/normal.png");
 	private static final float WAVE_SPEED = 0.03f;
 

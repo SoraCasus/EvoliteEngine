@@ -50,7 +50,7 @@ public class EEFile {
 	}
 
 	public InputStream getInputStream() {
-		return Class.class.getResourceAsStream(path);
+		return this.getClass().getResourceAsStream(path);
 	}
 
 	public BufferedReader getReader() {
