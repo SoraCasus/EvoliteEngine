@@ -1,13 +1,12 @@
 package terrains;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import models.RawModel;
+import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -16,7 +15,7 @@ import renderEngine.Loader;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
-import util.EEFile;
+import com.evoliteengine.util.EEFile;
 
 public class Terrain {
 

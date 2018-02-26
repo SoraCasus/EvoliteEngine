@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.util.vector.Matrix4f;
 
-import entities.Camera;
+import com.evoliteengine.render.entities.Camera;
 import renderEngine.Loader;
 
 public class ParticleMaster {

@@ -5,8 +5,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import entities.Camera;
-import renderEngine.DisplayManager;
+import com.evoliteengine.render.entities.Camera;
 import renderEngine.MasterRenderer;
 
 /**

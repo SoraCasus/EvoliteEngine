@@ -1,0 +1,29 @@
+#shader vertex
+#version 400 core
+
+layout (location = 0) in vec2 in_position;
+
+out vec2 pass_texCoords;
+
+void main(void) {
+    gl_Position = vec4(in_position, 0.0, 1.0);
+    pass_texCoords = in_position * 0.5 + 0.5;
+}
+
+#shader fragment
+#version 400 core
+
+in vec2 pass_texCoords;
+
+out vec4 out_colour;
+
+uniform sampler2D colourTexture;
+
+void main(void) {
+
+    vec4 colour = texture(colourTexture, pass_texCoords);
+    float brightness = (colour.r * 0.2126) + (colour.g * 0.7152) + (colour.b * 0.0722);
+
+    out_colour = colour * brightness;
+
+}

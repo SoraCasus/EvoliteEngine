@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.GL40;
-import util.EEFile;
+import com.evoliteengine.util.EEFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -123,7 +123,9 @@ public class ShaderProgram implements IDisposable {
 			int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
 			GL20.glShaderSource(id, vertSrc);
 			GL20.glCompileShader(id);
-			checkError(id, GL20.GL_COMPILE_STATUS, false);
+			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
+				System.err.println("Shader: VERTEX, " + shader);
+			}
 			res.vertID = id;
 		}
 
@@ -131,7 +133,9 @@ public class ShaderProgram implements IDisposable {
 			int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
 			GL20.glShaderSource(id, fragSrc);
 			GL20.glCompileShader(id);
-			checkError(id, GL20.GL_COMPILE_STATUS, false);
+			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
+				System.err.println("Shader: FRAGMENT, " + shader);
+			}
 			res.fragID = id;
 		}
 
@@ -139,7 +143,9 @@ public class ShaderProgram implements IDisposable {
 			int id = GL20.glCreateShader(GL32.GL_GEOMETRY_SHADER);
 			GL20.glShaderSource(id, geomSrc);
 			GL20.glCompileShader(id);
-			checkError(id, GL20.GL_COMPILE_STATUS, false);
+			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
+				System.err.println("Shader: GEOMETRY, " + shader);
+			}
 			res.geomID = id;
 		}
 
@@ -147,7 +153,9 @@ public class ShaderProgram implements IDisposable {
 			int id = GL20.glCreateShader(GL40.GL_TESS_EVALUATION_SHADER);
 			GL20.glShaderSource(id, tessEvalSrc);
 			GL20.glCompileShader(id);
-			checkError(id, GL20.GL_COMPILE_STATUS, false);
+			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
+				System.err.println("Shader: TESSELATION EVALUATION, " + shader);
+			}
 			res.tessEvalID = id;
 		}
 
@@ -155,27 +163,32 @@ public class ShaderProgram implements IDisposable {
 			int id = GL20.glCreateShader(GL40.GL_TESS_CONTROL_SHADER);
 			GL20.glShaderSource(id, tessCtrlSrc);
 			GL20.glCompileShader(id);
-			checkError(id, GL20.GL_COMPILE_STATUS, false);
+			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
+				System.err.println("Shader: TESSELATION CONTROL, " + shader);
+			}
 			res.tessCtrlID = id;
 		}
 
 		return res;
 	}
 
-	private void checkError (int id, int flag, boolean isProgram) {
+	private boolean checkError (int id, int flag, boolean isProgram) {
 		if (isProgram) {
 			if (GL20.glGetProgrami(id, flag) != GL11.GL_TRUE) {
 				// An error was found
 				int length = GL20.glGetProgrami(id, GL20.GL_INFO_LOG_LENGTH);
 				System.err.println(GL20.glGetProgramInfoLog(id, length));
+				return true;
 			}
 		} else {
 			if (GL20.glGetShaderi(id, flag) != GL11.GL_TRUE) {
 				// An error was found
 				int length = GL20.glGetShaderi(id, GL20.GL_INFO_LOG_LENGTH);
 				System.err.println(GL20.glGetShaderInfoLog(id, length));
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public void start () {

@@ -3,8 +3,8 @@ package water;
 import org.lwjgl.util.vector.Matrix4f;
 import shaders.ShaderProgram;
 import toolbox.Maths;
-import entities.Camera;
-import entities.Light;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Light;
 
 public class WaterShader extends ShaderProgram {
 

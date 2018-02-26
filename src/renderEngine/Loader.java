@@ -1,15 +1,13 @@
 package renderEngine;
 
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.RawModel;
+import com.evoliteengine.render.models.RawModel;
 import textures.TextureData;
 
 import org.lwjgl.BufferUtils;
@@ -27,7 +25,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
-import util.EEFile;
+import com.evoliteengine.util.EEFile;
 
 public class Loader {
 

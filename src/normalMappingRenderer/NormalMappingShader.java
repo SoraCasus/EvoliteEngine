@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import entities.Light;
+import com.evoliteengine.render.entities.Light;
 import shaders.ShaderProgram;
 
 public class NormalMappingShader extends ShaderProgram{
