@@ -8,10 +8,10 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Camera;
-import entities.Entity;
-import entities.Light;
-import models.TexturedModel;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.models.TexturedModel;
 
 /**
  * This class is in charge of using all of the classes in the shadows package to
@@ -55,17 +55,17 @@ public class ShadowMapMasterRenderer {
 	}
 
 	/**
-	 * Carries out the shadow render pass. This renders the entities to the
+	 * Carries out the shadow render pass. This renders the com.evoliteengine.render.entities to the
 	 * shadow map. First the shadow box is updated to calculate the size and
 	 * position of the "view cuboid". The light direction is assumed to be
 	 * "-lightPosition" which will be fairly accurate assuming that the light is
-	 * very far from the scene. It then prepares to render, renders the entities
+	 * very far from the scene. It then prepares to render, renders the com.evoliteengine.render.entities
 	 * to the shadow map, and finishes rendering.
 	 * 
 	 * @param entities
-	 *            - the lists of entities to be rendered. Each list is
+	 *            - the lists of com.evoliteengine.render.entities to be rendered. Each list is
 	 *            associated with the {@link TexturedModel} that all of the
-	 *            entities in that list use.
+	 *            com.evoliteengine.render.entities in that list use.
 	 * @param sun
 	 *            - the light acting as the sun in the scene.
 	 */

@@ -3,7 +3,7 @@ package skybox;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Camera;
+import com.evoliteengine.render.entities.Camera;
 import renderEngine.DisplayManager;
 import shaders.ShaderProgram;
 import toolbox.Maths;

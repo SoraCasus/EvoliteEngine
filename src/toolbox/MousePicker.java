@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import terrains.Terrain;
-import entities.Camera;
+import com.evoliteengine.render.entities.Camera;
 
 public class MousePicker {
 

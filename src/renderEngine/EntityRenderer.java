@@ -3,10 +3,9 @@ package renderEngine;
 import java.util.List;
 import java.util.Map;
 
-import models.RawModel;
-import models.TexturedModel;
+import com.evoliteengine.render.models.RawModel;
+import com.evoliteengine.render.models.TexturedModel;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -16,7 +15,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import shaders.StaticShader;
 import textures.ModelTexture;
 import toolbox.Maths;
-import entities.Entity;
+import com.evoliteengine.render.entities.Entity;
 
 public class EntityRenderer {
 

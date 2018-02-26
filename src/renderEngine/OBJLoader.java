@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.RawModel;
+import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import util.EEFile;
+import com.evoliteengine.util.EEFile;
 
 public class OBJLoader {
 

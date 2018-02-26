@@ -9,9 +9,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
-import entities.Entity;
-import models.RawModel;
-import models.TexturedModel;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.models.RawModel;
+import com.evoliteengine.render.models.TexturedModel;
 import renderEngine.MasterRenderer;
 import toolbox.Maths;
 
@@ -35,10 +35,10 @@ public class ShadowMapEntityRenderer {
 
 	/**
 	 * Renders entieis to the shadow map. Each model is first bound and then all
-	 * of the entities using that model are rendered to the shadow map.
+	 * of the com.evoliteengine.render.entities using that model are rendered to the shadow map.
 	 * 
 	 * @param entities
-	 *            - the entities to be rendered to the shadow map.
+	 *            - the com.evoliteengine.render.entities to be rendered to the shadow map.
 	 */
 	protected void render(Map<TexturedModel, List<Entity>> entities) {
 		for (TexturedModel model : entities.keySet()) {

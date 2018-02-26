@@ -5,11 +5,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import bloom.BrightFilter;
-import bloom.CombineFilter;
-import gaussianBlur.HorizontalBlur;
-import gaussianBlur.VerticalBlur;
-import models.RawModel;
+import com.evoliteengine.render.renderers.BrightFilterRenderer;
+import com.evoliteengine.render.renderers.CombineFilterRenderer;
+import com.evoliteengine.render.renderers.HorizontalBlur;
+import com.evoliteengine.render.renderers.VerticalBlur;
+import com.evoliteengine.render.models.RawModel;
 import renderEngine.Loader;
 
 public class PostProcessing {
@@ -19,21 +19,21 @@ public class PostProcessing {
 	private static ContrastChanger contrastChanger;
 	private static HorizontalBlur hBlur;
 	private static VerticalBlur vBlur;
-	private static BrightFilter brightFilter;
-	private static CombineFilter combineFilter;
+	private static BrightFilterRenderer brightFilter;
+	private static CombineFilterRenderer combineFilter;
 
 	public static void init(Loader loader){
 		quad = loader.loadToVAO(POSITIONS, 2);
 		contrastChanger = new ContrastChanger();
 		hBlur = new HorizontalBlur(Display.getWidth()/5, Display.getHeight()/5);
 		vBlur = new VerticalBlur(Display.getWidth()/5, Display.getHeight()/5);
-		brightFilter = new BrightFilter(Display.getHeight()/2, Display.getWidth()/2);
-		combineFilter = new CombineFilter();
+		brightFilter = new BrightFilterRenderer(Display.getHeight()/2, Display.getWidth()/2);
+		combineFilter = new CombineFilterRenderer();
 	}
 	
 	public static void doPostProcessing(int colourTexture, int brightTexture){
 		start();
-		//brightFilter.render(colourTexture);
+		//brightFilter.esh.render(colourTexture);
 		hBlur.render(brightTexture);
 		vBlur.render(hBlur.getOutputTexture());
 		combineFilter.render(colourTexture, vBlur.getOutputTexture());

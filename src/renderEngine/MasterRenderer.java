@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.TexturedModel;
+import com.evoliteengine.render.models.TexturedModel;
 import normalMappingRenderer.NormalMappingRenderer;
 
 import org.lwjgl.opengl.Display;
@@ -19,9 +19,9 @@ import shaders.TerrainShader;
 import shadows.ShadowMapMasterRenderer;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
-import entities.Camera;
-import entities.Entity;
-import entities.Light;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
 
 public class MasterRenderer {
 	

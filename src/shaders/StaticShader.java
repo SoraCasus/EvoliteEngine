@@ -8,8 +8,8 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import toolbox.Maths;
-import entities.Camera;
-import entities.Light;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Light;
 
 public class StaticShader extends ShaderProgram{
 	

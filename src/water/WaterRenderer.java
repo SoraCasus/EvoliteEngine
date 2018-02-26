@@ -2,7 +2,7 @@ package water;
 
 import java.util.List;
 
-import models.RawModel;
+import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -14,13 +14,13 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import toolbox.Maths;
-import entities.Camera;
-import entities.Light;
-import util.EEFile;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.util.EEFile;
 
 public class WaterRenderer {
 
-	private static final EEFile DUDV_MAP = new EEFile("textures/water/dudv.png");
+	private static final EEFile DUDV_MAP = new EEFile("textures/water/waterDUDV.png");
 	private static final EEFile NORMAL_MAP = new EEFile("textures/normal/normal.png");
 	private static final float WAVE_SPEED = 0.03f;
 

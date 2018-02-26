@@ -10,11 +10,11 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector4f;
 
-import entities.Camera;
-import entities.Entity;
-import entities.Light;
-import models.RawModel;
-import models.TexturedModel;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.models.RawModel;
+import com.evoliteengine.render.models.TexturedModel;
 import renderEngine.MasterRenderer;
 import textures.ModelTexture;
 import toolbox.Maths;

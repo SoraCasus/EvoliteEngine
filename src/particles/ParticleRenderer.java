@@ -13,8 +13,8 @@ import org.lwjgl.opengl.GL31;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Camera;
-import models.RawModel;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.models.RawModel;
 import renderEngine.Loader;
 import toolbox.Maths;
 

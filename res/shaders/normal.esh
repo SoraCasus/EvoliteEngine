@@ -1,0 +1,116 @@
+#shader vertex
+#version 400 core
+
+layout (location = 0) in vec3 in_position;
+layout (location = 1) in vec2 in_texCoords;
+layout (location = 2) in vec3 in_normal;
+layout (location = 3) in vec3 in_tangent;
+
+out vec2 pass_texCoords;
+out vec3 pass_toLightVector[4];
+out vec3 pass_toCameraVector;
+out float pass_visibility;
+
+uniform mat4 tfMat;
+uniform mat4 projMat;
+uniform mat4 viewMat;
+uniform vec3 lightPositionEyeSpace[4];
+
+uniform float numberOfRows;
+uniform vec2 offset;
+
+uniform vec4 plane;
+
+const float density = 0.0;
+const float gradient = 5.0;
+
+void main(void) {
+    vec4 worldPosition = tfMat * vec4(in_position, 1.0);
+    gl_ClipDistance[0] = dot(worldPosition, plane);
+
+    mat4 modelViewMat = viewMat * tfMat;
+    vec4 posRelCam = modelViewMat * vec4(in_position, 1.0);
+    gl_Position = projMat * posRelCam;
+
+    pass_texCoords = (in_texCoords / numberOfRows) + offset;
+
+    vec3 surfaceNormal = (modelViewMat * vec4(in_normal, 0.0)).xyz;
+
+    vec3 norm = normalize(surfaceNormal);
+    vec3 tang = normalize((modelViewMat * vec4(in_tangent, 0.0)).xyz);
+    vec3 bitang = normalize(cross(norm, tang));
+
+    mat3 toTangSpace = mat3(
+        tang.x, bitang.x, norm.x,
+        tang.y, bitang.y, norm.y,
+        tang.z, bitang.z, norm.z
+    );
+
+    for(int i = 0; i < 4; i++)
+        pass_toLightVector[i] = toTangSpace * (lightPositionEyeSpace[i] - posRelCam.xyz);
+
+    pass_toCameraVector = toTangSpace * (-posRelCam.xyz);
+
+    float distance = length(posRelCam.xyz);
+
+    pass_visibility = exp(-pow((distance * density), gradient));
+    pass_visibility = clamp(pass_visibility, 0.0, 1.0);
+}
+
+#shader fragment
+#version 400 core
+
+in vec2 pass_texCoords;
+in vec3 pass_toLightVector[4];
+in vec3 pass_toCameraVector;
+in float pass_visibility;
+
+layout (location = 0) out vec4 out_colour;
+layout (location = 1) out vec4 out_brightColour;
+
+uniform sampler2D modelTexture;
+uniform sampler2D normalMap;
+uniform sampler2D specularMap;
+
+uniform float usesSpecularMap;
+uniform vec3 lightColour[4];
+uniform vec3 attenuation[4];
+uniform float shineDamper;
+uniform float reflectivity;
+uniform vec3 skyColour;
+
+void main(void) {
+
+    vec4 normalMapValue = 2.0 * texture(normalMap, pass_texCoords) - 1.0;
+
+    vec3 unitNormal = normalize(normalMapValue.rgb);
+    vec3 unitVecToCam = normalize(pass_toCameraVector);
+
+    vec3 totalDiffuse = vec3(0.0);
+    vec3 totalSpecular = vec3(0.0);
+
+    for(int i = 0; i < 4; i++) {
+        float distance = length(pass_toLightVector[i]);
+        float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
+        vec3 unitLightVector = normalize(pass_toLightVector[i]);
+        float nDotl = dot(unitNormal, unitLightVector);
+        float brightness = max(nDotl, 0.0);
+        vec3 lightDir = -unitLightVector;
+        vec3 reflLightDir = reflect()
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
