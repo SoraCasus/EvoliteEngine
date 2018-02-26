@@ -1,4 +1,5 @@
-#Evolite Engine v0.2.0 <br>
+<b>Evolite Engine v0.2.0</b>
+ ==========================<br>
 
 A 3D rendering engine I hope to soon implement into a Game Engine
 Planned features: 
@@ -10,8 +11,10 @@ Planned features:
 
 
 Todo:
-- [x] Uniforms
 - [x] Rewrite shader system
+    - [x] Uniforms
+    - [x] Shader Loading
+    - [x] Shader formatting
 - [ ] Transfer shaders to new system
     - [x] Bloom 
     - [x] Font 
