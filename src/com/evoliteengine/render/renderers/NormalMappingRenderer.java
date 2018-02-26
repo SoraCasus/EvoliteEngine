@@ -1,13 +1,16 @@
-package normalMappingRenderer;
+package com.evoliteengine.render.renderers;
 
 import java.util.List;
 import java.util.Map;
 
+import com.evoliteengine.render.shader.NormalMappingShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import com.evoliteengine.render.entities.Camera;
@@ -26,8 +29,10 @@ public class NormalMappingRenderer {
 	public NormalMappingRenderer(Matrix4f projectionMatrix) {
 		this.shader = new NormalMappingShader();
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.connectTextureUnits();
+		shader.projMat.load(projectionMatrix);
+		shader.modelTexture.load(0);
+		shader.normalMap.load(1);
+		shader.specularMap.load(2);
 		shader.stop();
 	}
 
@@ -45,9 +50,9 @@ public class NormalMappingRenderer {
 		}
 		shader.stop();
 	}
-	
-	public void cleanUp(){
-		shader.cleanUp();
+
+	public void cleanUp() {
+		shader.delete();
 	}
 
 	private void prepareTexturedModel(TexturedModel model) {
@@ -58,17 +63,18 @@ public class NormalMappingRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		GL20.glEnableVertexAttribArray(3);
 		ModelTexture texture = model.getTexture();
-		shader.loadNumberOfRows(texture.getNumberOfRows());
+		shader.numberOfRows.load(texture.getNumberOfRows());
 		if (texture.isHasTransparency()) {
 			MasterRenderer.disableCulling();
 		}
-		shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+		shader.shineDamper.load(texture.getShineDamper());
+		shader.reflectivity.load(texture.getReflectivity());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getNormalMap());
-		shader.loadUseSpecularMap(texture.hasSpecularMap());
-		if(texture.hasSpecularMap()){
+		shader.usesSpecularMap.load(texture.hasSpecularMap());
+		if (texture.hasSpecularMap()) {
 			GL13.glActiveTexture(GL13.GL_TEXTURE2);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getSpecularMap());
 		}
@@ -86,18 +92,41 @@ public class NormalMappingRenderer {
 	private void prepareInstance(Entity entity) {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
 				entity.getRotY(), entity.getRotZ(), entity.getScale());
-		shader.loadTransformationMatrix(transformationMatrix);
-		shader.loadOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
+		shader.tfMat.load(transformationMatrix);
+		shader.offset.load(new Vector2f(entity.getTextureXOffset(), entity.getTextureYOffset()));
 	}
 
 	private void prepare(Vector4f clipPlane, List<Light> lights, Camera camera) {
-		shader.loadClipPlane(clipPlane);
+		shader.plane.load(clipPlane);
 		//need to be public variables in MasterRenderer
-		shader.loadSkyColour(MasterRenderer.RED, MasterRenderer.GREEN, MasterRenderer.BLUE);
+		shader.skyColour.load(new Vector3f(MasterRenderer.RED, MasterRenderer.GREEN, MasterRenderer.BLUE));
 		Matrix4f viewMatrix = Maths.createViewMatrix(camera);
-		
-		shader.loadLights(lights, viewMatrix);
-		shader.loadViewMatrix(viewMatrix);
+		Vector3f[] positions = new Vector3f[NormalMappingShader.MAX_LIGHTS];
+		Vector3f[] colours = new Vector3f[NormalMappingShader.MAX_LIGHTS];
+		Vector3f[] attenuation = new Vector3f[NormalMappingShader.MAX_LIGHTS];
+		for (int i = 0; i < NormalMappingShader.MAX_LIGHTS; i++) {
+			if (i < lights.size()) {
+				Light l = lights.get(i);
+				positions[i] = getEyeSpacePosition(l.getPosition(), viewMatrix);
+				colours[i] = l.getColour();
+				attenuation[i] = l.getAttenuation();
+			} else {
+				positions[i] = new Vector3f();
+				colours[i] = new Vector3f();
+				attenuation[i] = new Vector3f(1, 0, 0);
+			}
+		}
+
+		shader.lightPositionEyeSpace.load(positions);
+		shader.lightColour.load(colours);
+		shader.attenuation.load(attenuation);
+		shader.viewMat.load(viewMatrix);
+	}
+
+	private Vector3f getEyeSpacePosition(Vector3f light, Matrix4f viewMatrix) {
+		Vector4f eyeSpacePos = new Vector4f(light.x, light.y, light.z, 1f);
+		Matrix4f.transform(viewMatrix, eyeSpacePos, eyeSpacePos);
+		return new Vector3f(eyeSpacePos);
 	}
 
 }

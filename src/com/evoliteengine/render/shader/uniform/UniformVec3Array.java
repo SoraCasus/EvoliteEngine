@@ -6,7 +6,7 @@ public class UniformVec3Array extends Uniform {
 
 	private UniformVec3[] uniforms;
 
-	public UniformVec3Array (String name, int size) {
+	public UniformVec3Array(String name, int size) {
 		super(name);
 		uniforms = new UniformVec3[size];
 		for (int i = 0; i < size; i++)
@@ -14,14 +14,18 @@ public class UniformVec3Array extends Uniform {
 	}
 
 	@Override
-	public void storeUniformLocation (int programID) {
+	public void storeUniformLocation(int programID) {
 		for (UniformVec3 uniform : uniforms)
 			uniform.storeUniformLocation(programID);
 	}
 
-	public void load (Vector3f[] vecs) {
-		for (int i = 0; i < vecs.length; i++)
-			uniforms[i].load(vecs[i]);
+	public void load(Vector3f[] vecs) {
+		for (int i = 0; i < uniforms.length; i++) {
+			if (i < vecs.length)
+				uniforms[i].load(vecs[i]);
+			else
+				uniforms[i].load(new Vector3f(0, 0, 0));
+		}
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.evoliteengine.render.models.TexturedModel;
-import normalMappingRenderer.NormalMappingRenderer;
+import com.evoliteengine.render.renderers.NormalMappingRenderer;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;

@@ -1,25 +1,31 @@
 package com.evoliteengine.test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
+import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
+import com.evoliteengine.io.objConverter.OBJFileLoader;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.entities.Player;
+import com.evoliteengine.render.font.FontType;
+import com.evoliteengine.render.font.GUIText;
+import com.evoliteengine.render.font.TextMaster;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
-import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
-import particles.ParticleMaster;
-import particles.ParticleSystem;
-import particles.ParticleTexture;
-import postProcessing.Fbo;
-import postProcessing.PostProcessing;
-
+import com.evoliteengine.render.renderers.GuiRenderer;
+import com.evoliteengine.render.texture.GuiTexture;
+import com.evoliteengine.util.EEFile;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-
+import particles.ParticleMaster;
+import particles.ParticleSystem;
+import particles.ParticleTexture;
+import postProcessing.Fbo;
+import postProcessing.PostProcessing;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -28,20 +34,14 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
-import com.evoliteengine.util.EEFile;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.entities.Entity;
-import com.evoliteengine.render.entities.Light;
-import com.evoliteengine.render.entities.Player;
-import com.evoliteengine.render.font.FontType;
-import com.evoliteengine.render.font.GUIText;
-import com.evoliteengine.render.font.TextMaster;
-import com.evoliteengine.render.renderers.GuiRenderer;
-import com.evoliteengine.render.texture.GuiTexture;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MainGameLoop {
 
@@ -57,7 +57,6 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
-
 		RawModel bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"), loader);
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
 				loader.loadTexture(new EEFile("textures/diffuse/playerTexture.png"))));
@@ -117,7 +116,7 @@ public class MainGameLoop {
 
 		entities.add(player);
 
-		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("models/boulder", loader),
+		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ(new EEFile("models/boulder.obj"), loader),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/boulder.png"))));
 		barrelModel.getTexture().setNormalMap(loader.loadTexture(new EEFile("textures/normal/boulderNormal.png")));
 		barrelModel.getTexture().setShineDamper(10);

@@ -12,6 +12,20 @@ Planned features:
 Todo:
 - [x] Uniforms
 - [x] Rewrite shader system
+- [ ] Transfer shaders to new system
+    - [x] Bloom 
+    - [x] Font 
+    - [x] GUI 
+    - [x] Gaussian blur 
+    - [x] Normal mapping 
+    - [ ] Particles
+    - [ ] Contrast
+    - [ ] Terrain
+    - [ ] Basic
+    - [ ] Shadow mapping
+    - [ ] Skybox
+    - [ ] Water
+- [ ] Merge OBJ File input (normal mapped and standard OBJ's)
 - [ ] Reorganize code
 - [ ] Logging system
 - [ ] Vao/Vbo management

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.util.EEFile;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -18,28 +19,21 @@ public class NormalMappedObjLoader {
 
 	private static final String RES_LOC = "res/";
 
-	public static RawModel loadOBJ(String objFileName, Loader loader) {
-		FileReader isr = null;
-		File objFile = new File(RES_LOC + objFileName + ".obj");
-		try {
-			isr = new FileReader(objFile);
-		} catch (FileNotFoundException e) {
-			System.err.println("File not found in res; don't use any extention");
-		}
-		BufferedReader reader = new BufferedReader(isr);
+	public static RawModel loadOBJ(EEFile file, Loader loader) {
+		BufferedReader reader = file.getReader();
 		String line;
-		List<VertexNM> vertices = new ArrayList<VertexNM>();
-		List<Vector2f> textures = new ArrayList<Vector2f>();
-		List<Vector3f> normals = new ArrayList<Vector3f>();
-		List<Integer> indices = new ArrayList<Integer>();
+		List<VertexNM> vertices = new ArrayList<>();
+		List<Vector2f> textures = new ArrayList<>();
+		List<Vector3f> normals = new ArrayList<>();
+		List<Integer> indices = new ArrayList<>();
 		try {
 			while (true) {
 				line = reader.readLine();
 				if (line.startsWith("v ")) {
 					String[] currentLine = line.split(" ");
-					Vector3f vertex = new Vector3f((float) Float.valueOf(currentLine[1]),
-							(float) Float.valueOf(currentLine[2]),
-							(float) Float.valueOf(currentLine[3]));
+					Vector3f vertex = new Vector3f(Float.valueOf(currentLine[1]),
+							Float.valueOf(currentLine[2]),
+							Float.valueOf(currentLine[3]));
 					VertexNM newVertex = new VertexNM(vertices.size(), vertex);
 					vertices.add(newVertex);
 

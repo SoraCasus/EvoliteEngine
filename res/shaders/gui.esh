@@ -9,7 +9,7 @@ uniform mat4 tfMat;
 
 void main(void) {
     gl_Position = tfMat * vec4(in_position, 0.0, 1.0);
-    pass_texCoords = vec2((position.x + 1.0) / 2.0, 1 - (position.y + 1.0) / 2.0);
+    pass_texCoords = vec2((in_position.x + 1.0) / 2.0, 1.0 - (in_position.y + 1.0) / 2.0);
 }
 
 #shader fragment

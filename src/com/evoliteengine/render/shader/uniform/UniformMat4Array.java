@@ -21,8 +21,12 @@ public class UniformMat4Array extends Uniform {
 	}
 
 	public void loadMat4Array(Matrix4f[] matrices) {
-		for(int i = 0; i < matrices.length; i++)
-			matrixUniforms[i].load(matrices[i]);
+		for(int i = 0; i < matrixUniforms.length; i++) {
+			if(i < matrices.length)
+				matrixUniforms[i].load(matrices[i]);
+			else
+				matrixUniforms[i].load(new Matrix4f());
+		}
 	}
 
 
