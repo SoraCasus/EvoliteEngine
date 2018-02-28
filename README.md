@@ -1,4 +1,4 @@
-<b>Evolite Engine v0.2.0</b>
+<b>Evolite Engine v0.2.1</b>
 
 A 3D rendering engine I hope to soon implement into a Game Engine
 Planned features: 
