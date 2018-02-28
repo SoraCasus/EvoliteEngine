@@ -1,4 +1,4 @@
-package particles;
+package com.evoliteengine.render.texture;
 
 public class ParticleTexture {
 	private int textureID;

@@ -4,8 +4,6 @@ import com.evoliteengine.render.shader.BrightFilterShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import postProcessing.ImageRenderer;
-
 public class BrightFilterRenderer {
 
 	private ImageRenderer renderer;

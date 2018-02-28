@@ -1,15 +1,17 @@
-package renderEngine;
+package com.evoliteengine.io;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import com.evoliteengine.util.EEFile;
 
+@Deprecated(forRemoval = true, since = "0.2.0")
 public class OBJLoader {
 
 	public static RawModel loadObjModel(EEFile file, Loader loader) {

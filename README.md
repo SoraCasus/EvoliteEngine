@@ -20,10 +20,10 @@ Todo:
     - [x] GUI 
     - [x] Gaussian blur 
     - [x] Normal mapping 
-    - [ ] Particles
-    - [ ] Contrast
-    - [ ] Terrain
-    - [ ] Basic
+    - [x] Particles
+    - [x] Contrast
+    - [x] Terrain
+    - [x] Basic
     - [ ] Shadow mapping
     - [ ] Skybox
     - [ ] Water

@@ -5,7 +5,7 @@ import com.evoliteengine.render.models.TexturedModel;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
-import renderEngine.DisplayManager;
+import com.evoliteengine.render.DisplayManager;
 import terrains.Terrain;
 
 public class Player extends Entity {

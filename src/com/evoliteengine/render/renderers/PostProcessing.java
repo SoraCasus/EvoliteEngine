@@ -1,16 +1,12 @@
-package postProcessing;
+package com.evoliteengine.render.renderers;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import com.evoliteengine.render.renderers.BrightFilterRenderer;
-import com.evoliteengine.render.renderers.CombineFilterRenderer;
-import com.evoliteengine.render.renderers.HorizontalBlur;
-import com.evoliteengine.render.renderers.VerticalBlur;
 import com.evoliteengine.render.models.RawModel;
-import renderEngine.Loader;
+import com.evoliteengine.render.Loader;
 
 public class PostProcessing {
 	
@@ -33,10 +29,11 @@ public class PostProcessing {
 	
 	public static void doPostProcessing(int colourTexture, int brightTexture){
 		start();
-		//brightFilter.esh.render(colourTexture);
+		brightFilter.render(colourTexture);
 		hBlur.render(brightTexture);
 		vBlur.render(hBlur.getOutputTexture());
 		combineFilter.render(colourTexture, vBlur.getOutputTexture());
+		contrastChanger.render(colourTexture);
 		end();
 	}
 	

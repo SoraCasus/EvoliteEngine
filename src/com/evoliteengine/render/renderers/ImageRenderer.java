@@ -1,5 +1,6 @@
-package postProcessing;
+package com.evoliteengine.render.renderers;
 
+import com.evoliteengine.render.globjects.Fbo;
 import org.lwjgl.opengl.GL11;
 
 public class ImageRenderer {

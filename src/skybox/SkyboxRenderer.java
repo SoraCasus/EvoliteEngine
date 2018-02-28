@@ -8,8 +8,8 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.models.RawModel;
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
+import com.evoliteengine.render.DisplayManager;
+import com.evoliteengine.render.Loader;
 
 public class SkyboxRenderer {
 	private static final float SIZE = 500f;

@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
+import com.evoliteengine.render.DisplayManager;
+import com.evoliteengine.render.Loader;
 import toolbox.Maths;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Light;

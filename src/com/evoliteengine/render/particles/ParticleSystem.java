@@ -1,12 +1,13 @@
-package particles;
+package com.evoliteengine.render.particles;
  
 import java.util.Random;
  
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
- 
-import renderEngine.DisplayManager;
+
+import com.evoliteengine.render.texture.ParticleTexture;
+import com.evoliteengine.render.DisplayManager;
  
 public class ParticleSystem {
  

@@ -1,5 +1,5 @@
 
-package postProcessing;
+package com.evoliteengine.render.globjects;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;

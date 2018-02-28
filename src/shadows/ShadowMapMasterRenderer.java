@@ -117,7 +117,7 @@ public class ShadowMapMasterRenderer {
 	/**
 	 * Prepare for the shadow render pass. This first updates the dimensions of
 	 * the orthographic "view cuboid" based on the information that was
-	 * calculated in the {@link SHadowBox} class. The light's "view" matrix is
+	 * calculated in the {@link ShadowBox} class. The light's "view" matrix is
 	 * also calculated based on the light's direction and the center position of
 	 * the "view cuboid" which was also calculated in the {@link ShadowBox}
 	 * class. These two matrices are multiplied together to create the

@@ -1,4 +1,4 @@
-package renderEngine;
+package com.evoliteengine.render;
 
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;

@@ -1,4 +1,4 @@
-package renderEngine;
+package com.evoliteengine.render;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;

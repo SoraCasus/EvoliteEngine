@@ -5,11 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.evoliteengine.render.font.FontType;
-import com.evoliteengine.render.font.GUIText;
-import com.evoliteengine.render.font.TextMeshData;
 import com.evoliteengine.render.renderers.FontRenderer;
-import renderEngine.Loader;
+import com.evoliteengine.render.Loader;
 
 public class TextMaster {
 

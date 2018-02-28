@@ -2,7 +2,6 @@ package com.evoliteengine.test;
 
 
 import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
-import com.evoliteengine.io.objConverter.OBJFileLoader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
@@ -21,15 +20,15 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-import particles.ParticleMaster;
-import particles.ParticleSystem;
-import particles.ParticleTexture;
-import postProcessing.Fbo;
-import postProcessing.PostProcessing;
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
-import renderEngine.MasterRenderer;
-import renderEngine.OBJLoader;
+import com.evoliteengine.render.particles.ParticleMaster;
+import com.evoliteengine.render.particles.ParticleSystem;
+import com.evoliteengine.render.texture.ParticleTexture;
+import com.evoliteengine.render.globjects.Fbo;
+import com.evoliteengine.render.renderers.PostProcessing;
+import com.evoliteengine.render.DisplayManager;
+import com.evoliteengine.render.Loader;
+import com.evoliteengine.render.renderers.MasterRenderer;
+import com.evoliteengine.io.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
@@ -160,7 +159,7 @@ public class MainGameLoop {
 		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
 		List<Light> lights = new ArrayList<Light>();
 		//lights.add(light);
-		Light sun = new Light(new Vector3f(10000000, 10000000, -10000000), new Vector3f(1.0f, 1.0f, 1.0f));
+		Light sun = new Light(new Vector3f(10000, 20000, -10000), new Vector3f(1.0f, 1.0f, 1.0f));
 		lights.add(sun);
 		lights.add(new Light(new Vector3f(185, terrain.getHeightOfTerrain(185, -293) + 30, -293), new Vector3f(4, 0, 0),
 				new Vector3f(1, 0.01f, 0.002f)));
@@ -222,7 +221,7 @@ public class MainGameLoop {
 			player.move(terrain);
 			camera.move();
 
-			// system.generateParticles(player.getPosition());
+			 system.generateParticles(player.getPosition());
 			ParticleMaster.update(camera);
 
 			renderer.renderShadowMap(entities, sun);
@@ -242,7 +241,7 @@ public class MainGameLoop {
 			//refraction
 			fbos.bindRefractionFrameBuffer();
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
-			//ParticleMaster.renderParticles(camera);
+			ParticleMaster.renderParticles(camera);
 
 			//Screen
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);

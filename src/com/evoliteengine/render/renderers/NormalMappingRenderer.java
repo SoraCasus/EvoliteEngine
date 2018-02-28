@@ -18,7 +18,6 @@ import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
-import renderEngine.MasterRenderer;
 import textures.ModelTexture;
 import toolbox.Maths;
 

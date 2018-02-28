@@ -4,8 +4,6 @@ import com.evoliteengine.render.shader.VerticalBlurShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import postProcessing.ImageRenderer;
-
 public class VerticalBlur {
 	
 	private ImageRenderer renderer;

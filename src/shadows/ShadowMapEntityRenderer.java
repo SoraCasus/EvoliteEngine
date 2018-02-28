@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
-import renderEngine.MasterRenderer;
+import com.evoliteengine.render.renderers.MasterRenderer;
 import toolbox.Maths;
 
 public class ShadowMapEntityRenderer {

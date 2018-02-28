@@ -1,4 +1,4 @@
-package particles;
+package com.evoliteengine.render.particles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.evoliteengine.util.InsertionSort;
 import org.lwjgl.util.vector.Matrix4f;
 
 import com.evoliteengine.render.entities.Camera;
-import renderEngine.Loader;
+import com.evoliteengine.render.renderers.ParticleRenderer;
+import com.evoliteengine.render.texture.ParticleTexture;
+import com.evoliteengine.render.Loader;
 
 public class ParticleMaster {
 	private static Map<ParticleTexture, List<Particle>> particles = new HashMap<ParticleTexture, List<Particle>>();

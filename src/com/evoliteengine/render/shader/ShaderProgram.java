@@ -73,6 +73,14 @@ public class ShaderProgram implements IDisposable {
 			GL20.glBindAttribLocation(programID, i, attribs[i]);
 	}
 
+	protected void bindAttribute (String name, int index, boolean done) {
+		GL20.glBindAttribLocation(programID, index, name);
+		if(done) {
+			GL20.glValidateProgram(programID);
+			checkError(programID, GL20.GL_VALIDATE_STATUS, true);
+		}
+	}
+
 	private ShaderIDs loadShader (EEFile shader) {
 		ShaderIDs res = new ShaderIDs();
 

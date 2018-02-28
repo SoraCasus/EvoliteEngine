@@ -1,11 +1,12 @@
-package particles;
+package com.evoliteengine.render.particles;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Player;
-import renderEngine.DisplayManager;
+import com.evoliteengine.render.texture.ParticleTexture;
+import com.evoliteengine.render.DisplayManager;
 
 public class Particle {
 	private Vector3f position;
@@ -56,19 +57,19 @@ public class Particle {
 		return texture;
 	}
 
-	protected Vector3f getPosition() {
+	public Vector3f getPosition() {
 		return position;
 	}
 
-	protected float getRotation() {
+	public float getRotation() {
 		return rotation;
 	}
 
-	protected float getScale() {
+	public float getScale() {
 		return scale;
 	}
 	
-	protected boolean update(Camera camera){
+	public boolean update(Camera camera){
 		velocity.y += Player.GRAVITY * gravityEffect * DisplayManager.getFrameTimeSeconds();
 		Vector3f change = new Vector3f(velocity);
 		change.scale(DisplayManager.getFrameTimeSeconds());

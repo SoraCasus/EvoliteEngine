@@ -1,5 +1,7 @@
-package particles;
+package com.evoliteengine.util;
  
+import com.evoliteengine.render.particles.Particle;
+
 import java.util.List;
  
 public class InsertionSort {

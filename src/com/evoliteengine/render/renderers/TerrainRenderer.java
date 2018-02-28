@@ -1,4 +1,4 @@
-package renderEngine;
+package com.evoliteengine.render.renderers;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import shaders.TerrainShader;
+import com.evoliteengine.render.shader.TerrainShader;
 import terrains.Terrain;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
@@ -23,13 +23,12 @@ public class TerrainRenderer {
 	public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
 		shader.start();
-		shader.loadProjectionMatrix(projectionMatrix);
-		shader.connectTextureUnits();
+		shader.projMat.load(projectionMatrix);
 		shader.stop();
 	}
 
 	public void render(List<Terrain> terrains, Matrix4f toShadowSpace) {
-		shader.loadToShadowSpaceMatrix(toShadowSpace);
+		shader.toShadowMapSpace.load(toShadowSpace);
 		for (Terrain terrain : terrains) {
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
@@ -46,10 +45,17 @@ public class TerrainRenderer {
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
 		bindTextures(terrain);
-		shader.loadShineVariables(1, 0);
+		shader.shineDamper.load(1);
+		shader.reflectivity.load(0);
+		shader.bgTexture.load(0);
+		shader.rTexture.load(1);
+		shader.gTexture.load(2);
+		shader.bTexture.load(3);
+		shader.blendMap.load(4);
+		shader.shadowMap.load(5);
 	}
-	
-	private void bindTextures(Terrain terrain){
+
+	private void bindTextures(Terrain terrain) {
 		TerrainTexturePack texturePack = terrain.getTexturePack();
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
@@ -73,7 +79,7 @@ public class TerrainRenderer {
 	private void loadModelMatrix(Terrain terrain) {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(
 				new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
-		shader.loadTransformationMatrix(transformationMatrix);
+		shader.tfMat.load(transformationMatrix);
 	}
 
 }

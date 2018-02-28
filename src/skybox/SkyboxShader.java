@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.evoliteengine.render.entities.Camera;
-import renderEngine.DisplayManager;
+import com.evoliteengine.render.DisplayManager;
 import shaders.ShaderProgram;
 import toolbox.Maths;
 

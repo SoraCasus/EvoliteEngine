@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-@Deprecated(since = "0.2.1", forRemoval = true)
+@Deprecated(since = "0.2.0", forRemoval = true)
 public abstract class ShaderProgram {
 	
 	private int programID;
