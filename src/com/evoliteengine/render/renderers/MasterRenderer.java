@@ -18,13 +18,11 @@ import org.lwjgl.util.vector.Vector4f;
 
 import com.evoliteengine.render.shader.StaticShader;
 import com.evoliteengine.render.shader.TerrainShader;
-import shadows.ShadowMapMasterRenderer;
-import skybox.SkyboxRenderer;
-import terrains.Terrain;
+import com.evoliteengine.render.terrain.Terrain;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
-import toolbox.Maths;
+import com.evoliteengine.util.Maths;
 
 public class MasterRenderer {
 

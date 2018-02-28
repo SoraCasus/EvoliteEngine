@@ -1,4 +1,4 @@
-package terrains;
+package com.evoliteengine.render.terrain;
 
 import java.util.Random;
 

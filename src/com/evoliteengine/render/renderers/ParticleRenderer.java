@@ -19,7 +19,7 @@ import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.texture.ParticleTexture;
 import com.evoliteengine.render.Loader;
-import toolbox.Maths;
+import com.evoliteengine.util.Maths;
 
 public class ParticleRenderer {
 

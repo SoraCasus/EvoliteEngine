@@ -11,24 +11,10 @@ Planned features:
 
 Todo:
 - [x] Rewrite shader system
-    - [x] Uniforms
-    - [x] Shader Loading
-    - [x] Shader formatting
-- [ ] Transfer shaders to new system
-    - [x] Bloom 
-    - [x] Font 
-    - [x] GUI 
-    - [x] Gaussian blur 
-    - [x] Normal mapping 
-    - [x] Particles
-    - [x] Contrast
-    - [x] Terrain
-    - [x] Basic
-    - [ ] Shadow mapping
-    - [ ] Skybox
-    - [ ] Water
-- [ ] Merge OBJ File input (normal mapped and standard OBJ's)
+- [x] Transfer shaders to new system
+- [ ] Merge OBJ File input (normal mapped and standard OBJ's) <- Current Task
 - [ ] Reorganize code
 - [ ] Logging system
 - [ ] Vao/Vbo management
 - [ ] Game loop & Time
+- [ ] Smooth Shadows

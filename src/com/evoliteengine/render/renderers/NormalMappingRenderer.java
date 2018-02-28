@@ -18,8 +18,8 @@ import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
-import textures.ModelTexture;
-import toolbox.Maths;
+import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.util.Maths;
 
 public class NormalMappingRenderer {
 

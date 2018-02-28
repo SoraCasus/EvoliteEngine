@@ -1,6 +1,6 @@
 package com.evoliteengine.render.models;
 
-import textures.ModelTexture;
+import com.evoliteengine.render.texture.ModelTexture;
 
 public class TexturedModel {
 	

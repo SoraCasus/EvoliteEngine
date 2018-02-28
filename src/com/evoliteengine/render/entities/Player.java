@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.evoliteengine.render.DisplayManager;
-import terrains.Terrain;
+import com.evoliteengine.render.terrain.Terrain;
 
 public class Player extends Entity {
 

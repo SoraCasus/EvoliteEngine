@@ -1,4 +1,4 @@
-package terrains;
+package com.evoliteengine.render.terrain;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.evoliteengine.render.Loader;
-import textures.TerrainTexture;
-import textures.TerrainTexturePack;
-import toolbox.Maths;
+import com.evoliteengine.render.texture.TerrainTexture;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.util.Maths;
 import com.evoliteengine.util.EEFile;
 
 public class Terrain {

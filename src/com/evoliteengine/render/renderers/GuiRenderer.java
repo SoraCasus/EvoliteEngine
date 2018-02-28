@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
 import com.evoliteengine.render.Loader;
-import toolbox.Maths;
+import com.evoliteengine.util.Maths;
 
 public class GuiRenderer {
 
@@ -37,7 +37,7 @@ public class GuiRenderer {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			shader.guiTexture.load(0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.getTexture());
-			Matrix4f matrix = Maths.createTransformationMatrix(gui.getPosition(), gui.getScale());
+			Matrix4f matrix = Maths.createTransformationMatrix(gui.getPosition(), gui.getScale(), gui.getRotation());
 			shader.tfMat.load(matrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
 		}

@@ -29,14 +29,14 @@ import com.evoliteengine.render.DisplayManager;
 import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.renderers.MasterRenderer;
 import com.evoliteengine.io.OBJLoader;
-import terrains.Terrain;
-import textures.ModelTexture;
-import textures.TerrainTexture;
-import textures.TerrainTexturePack;
-import water.WaterFrameBuffers;
-import water.WaterRenderer;
-import water.WaterShader;
-import water.WaterTile;
+import com.evoliteengine.render.terrain.Terrain;
+import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.render.texture.TerrainTexture;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.render.water.WaterFrameBuffers;
+import com.evoliteengine.render.renderers.WaterRenderer;
+import com.evoliteengine.render.shader.WaterShader;
+import com.evoliteengine.render.water.WaterTile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,11 +181,11 @@ public class MainGameLoop {
 		List<GuiTexture> guiTextures = new ArrayList<>();
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 
-		/*
-		GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(),
-				new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
-		guiTextures.add(shadowMap);
-		*/
+
+//		GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(),
+//				new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f), 180);
+//		guiTextures.add(shadowMap);
+
 
 		WaterShader waterShader = new WaterShader();
 		WaterFrameBuffers fbos = new WaterFrameBuffers();
@@ -221,8 +221,8 @@ public class MainGameLoop {
 			player.move(terrain);
 			camera.move();
 
-			 system.generateParticles(player.getPosition());
-			ParticleMaster.update(camera);
+		//	 system.generateParticles(player.getPosition());
+		//	ParticleMaster.update(camera);
 
 			renderer.renderShadowMap(entities, sun);
 
@@ -271,7 +271,7 @@ public class MainGameLoop {
 		ParticleMaster.cleanUp();
 		TextMaster.cleanUp();
 		fbos.cleanUp();
-		waterShader.cleanUp();
+		waterShader.delete();
 		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();

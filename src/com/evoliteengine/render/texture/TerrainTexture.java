@@ -1,4 +1,4 @@
-package textures;
+package com.evoliteengine.render.texture;
 
 public class TerrainTexture {
 	

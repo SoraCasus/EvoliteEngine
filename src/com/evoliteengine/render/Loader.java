@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.evoliteengine.render.models.RawModel;
-import textures.TextureData;
+import com.evoliteengine.render.texture.TextureData;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;

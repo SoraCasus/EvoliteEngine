@@ -1,4 +1,4 @@
-package shadows;
+package com.evoliteengine.render.shadow;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
@@ -49,7 +49,7 @@ public class ShadowBox {
 	 * @param camera
 	 *            - the in-game camera.
 	 */
-	protected ShadowBox(Matrix4f lightViewMatrix, Camera camera) {
+	public ShadowBox(Matrix4f lightViewMatrix, Camera camera) {
 		this.lightViewMatrix = lightViewMatrix;
 		this.cam = camera;
 		calculateWidthsAndHeights();
@@ -61,7 +61,7 @@ public class ShadowBox {
 	 * possible while still ensuring that everything inside the camera's view
 	 * (within a certain range) will cast shadows.
 	 */
-	protected void update() {
+	public void update() {
 		Matrix4f rotation = calculateCameraRotationMatrix();
 		Vector3f forwardVector = new Vector3f(Matrix4f.transform(rotation, FORWARD, null));
 
@@ -113,7 +113,7 @@ public class ShadowBox {
 	 * 
 	 * @return The center of the "view cuboid" in world space.
 	 */
-	protected Vector3f getCenter() {
+	public Vector3f getCenter() {
 		float x = (minX + maxX) / 2f;
 		float y = (minY + maxY) / 2f;
 		float z = (minZ + maxZ) / 2f;
@@ -126,21 +126,21 @@ public class ShadowBox {
 	/**
 	 * @return The width of the "view cuboid" (orthographic projection area).
 	 */
-	protected float getWidth() {
+	public float getWidth() {
 		return maxX - minX;
 	}
 
 	/**
 	 * @return The height of the "view cuboid" (orthographic projection area).
 	 */
-	protected float getHeight() {
+	public float getHeight() {
 		return maxY - minY;
 	}
 
 	/**
 	 * @return The length of the "view cuboid" (orthographic projection area).
 	 */
-	protected float getLength() {
+	public float getLength() {
 		return maxZ - minZ;
 	}
 

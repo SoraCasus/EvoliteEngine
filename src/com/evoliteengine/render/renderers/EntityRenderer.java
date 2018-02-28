@@ -14,8 +14,8 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import org.lwjgl.util.vector.Vector2f;
 import com.evoliteengine.render.shader.StaticShader;
-import textures.ModelTexture;
-import toolbox.Maths;
+import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.util.Maths;
 import com.evoliteengine.render.entities.Entity;
 
 public class EntityRenderer {

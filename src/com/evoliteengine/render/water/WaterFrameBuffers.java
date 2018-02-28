@@ -1,4 +1,4 @@
-package water;
+package com.evoliteengine.render.water;
  
 import java.nio.ByteBuffer;
  

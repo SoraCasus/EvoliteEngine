@@ -3,10 +3,6 @@ package com.evoliteengine.render.shader;
 
 import com.evoliteengine.render.shader.uniform.*;
 import com.evoliteengine.util.EEFile;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
-import toolbox.Maths;
 
 public class TerrainShader extends ShaderProgram {
 

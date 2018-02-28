@@ -1,0 +1,36 @@
+#shader vertex
+#version 400 core
+
+layout (location = 0) in vec3 in_position;
+layout (location = 1) in vec2 in_textureCoords;
+
+out vec2 pass_textureCoords;
+
+uniform mat4 mvpMatrix;
+
+void main(void){
+
+	gl_Position = mvpMatrix * vec4(in_position, 1.0);
+	pass_textureCoords = in_textureCoords;
+
+}
+
+#shader fragment
+#version 400 core
+
+in vec2 pass_textureCoords;
+
+out vec4 out_colour;
+
+uniform sampler2D modelTexture;
+
+void main(void){
+
+	float alpha = texture(modelTexture, pass_textureCoords).a;
+	if(alpha < 0.5)
+		discard;
+
+
+	out_colour = vec4(1.0, 1.0, 1.0, alpha);
+
+}

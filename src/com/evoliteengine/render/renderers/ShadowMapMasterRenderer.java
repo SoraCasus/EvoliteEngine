@@ -1,8 +1,10 @@
-package shadows;
+package com.evoliteengine.render.renderers;
 
 import java.util.List;
 import java.util.Map;
 
+import com.evoliteengine.render.shadow.ShadowBox;
+import com.evoliteengine.render.shadow.ShadowFrameBuffer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
@@ -12,6 +14,7 @@ import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.models.TexturedModel;
+import com.evoliteengine.render.shader.ShadowShader;
 
 /**
  * This class is in charge of using all of the classes in the shadows package to
@@ -24,7 +27,7 @@ import com.evoliteengine.render.models.TexturedModel;
  */
 public class ShadowMapMasterRenderer {
 
-	private static final int SHADOW_MAP_SIZE = 2048;
+	private static final int SHADOW_MAP_SIZE = 4096;
 
 	private ShadowFrameBuffer shadowFbo;
 	private ShadowShader shader;
@@ -94,7 +97,7 @@ public class ShadowMapMasterRenderer {
 	 * Clean up the shader and FBO on closing.
 	 */
 	public void cleanUp() {
-		shader.cleanUp();
+		shader.delete();
 		shadowFbo.cleanUp();
 	}
 

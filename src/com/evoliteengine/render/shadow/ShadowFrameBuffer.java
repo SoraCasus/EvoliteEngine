@@ -1,4 +1,4 @@
-package shadows;
+package com.evoliteengine.render.shadow;
 
 import java.nio.ByteBuffer;
 
@@ -32,7 +32,7 @@ public class ShadowFrameBuffer {
 	 * @param height
 	 *            - the height of the shadow map in pixels.
 	 */
-	protected ShadowFrameBuffer(int width, int height) {
+	public ShadowFrameBuffer(int width, int height) {
 		this.WIDTH = width;
 		this.HEIGHT = height;
 		initialiseFrameBuffer();
@@ -41,7 +41,7 @@ public class ShadowFrameBuffer {
 	/**
 	 * Deletes the frame buffer and shadow map texture when the game closes.
 	 */
-	protected void cleanUp() {
+	public void cleanUp() {
 		GL30.glDeleteFramebuffers(fbo);
 		GL11.glDeleteTextures(shadowMap);
 	}
@@ -49,7 +49,7 @@ public class ShadowFrameBuffer {
 	/**
 	 * Binds the frame buffer, setting it as the current render target.
 	 */
-	protected void bindFrameBuffer() {
+	public void bindFrameBuffer() {
 		bindFrameBuffer(fbo, WIDTH, HEIGHT);
 	}
 
@@ -57,7 +57,7 @@ public class ShadowFrameBuffer {
 	 * Unbinds the frame buffer, setting the default frame buffer as the current
 	 * render target.
 	 */
-	protected void unbindFrameBuffer() {
+	public void unbindFrameBuffer() {
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
 	}
@@ -65,7 +65,7 @@ public class ShadowFrameBuffer {
 	/**
 	 * @return The ID of the shadow map texture.
 	 */
-	protected int getShadowMap() {
+	public int getShadowMap() {
 		return shadowMap;
 	}
 

@@ -12,9 +12,9 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.evoliteengine.render.shader.TerrainShader;
-import terrains.Terrain;
-import textures.TerrainTexturePack;
-import toolbox.Maths;
+import com.evoliteengine.render.terrain.Terrain;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.util.Maths;
 
 public class TerrainRenderer {
 

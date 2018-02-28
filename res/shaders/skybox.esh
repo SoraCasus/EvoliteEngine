@@ -1,0 +1,42 @@
+#shader vertex
+#version 400 core
+
+layout (location = 0) in vec3 in_position;
+
+out vec3 pass_textureCoords;
+
+uniform mat4 projMat;
+uniform mat4 viewMat;
+
+void main(void){
+
+	gl_Position = projMat * viewMat * vec4(in_position, 1.0);
+	pass_textureCoords = in_position;
+
+}
+
+#shader fragment
+#version 400 core
+
+in vec3 pass_textureCoords;
+out vec4 out_colour;
+
+uniform samplerCube cubeMap;
+uniform samplerCube cubeMap2;
+uniform float blendFactor;
+uniform vec3 fogColour;
+
+const float lowerLimit = 0.0;
+const float upperLimit = 30.0;
+
+void main(void) {
+    vec4 texture1 = texture(cubeMap, pass_textureCoords);
+    vec4 texture2 = texture(cubeMap2, pass_textureCoords);
+    vec4 finalColour = mix(texture1, texture2, blendFactor);
+    
+    float factor = (pass_textureCoords.y - lowerLimit) / (upperLimit - lowerLimit);
+    factor = clamp(factor, 0.0, 1.0);
+    out_colour = mix(vec4(fogColour, 1.0), finalColour, factor);
+}
+
+
