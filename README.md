@@ -15,7 +15,7 @@ Todo:
 - [ ] Remove Loader class entirely (Kill the beast!)
 - [ ] BUG: Water reflecting too much
 - [ ] Rebuild Particle System (It did not survive VAO / VBO Migration)
-- [ ] Merge OBJ File input (normal mapped and standard OBJ's) <- Current Task
+- [ ] Merge OBJ File input (normal mapped and standard OBJ's)
 - [ ] Reorganize code
 - [ ] Logging system
 - [ ] Game loop & Time
