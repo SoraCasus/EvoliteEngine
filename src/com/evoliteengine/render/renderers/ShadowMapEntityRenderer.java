@@ -48,7 +48,7 @@ public class ShadowMapEntityRenderer {
 			}
 			for (Entity entity : entities.get(model)) {
 				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(),
+				GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVao().getVertexCount(),
 						GL11.GL_UNSIGNED_INT, 0);
 			}
 			if (model.getTexture().isHasTransparency()) {
@@ -68,9 +68,7 @@ public class ShadowMapEntityRenderer {
 	 * @param rawModel - the model to be bound.
 	 */
 	private void bindModel(RawModel rawModel) {
-		GL30.glBindVertexArray(rawModel.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
+		rawModel.getVao().bind(0, 1);
 	}
 
 	/**

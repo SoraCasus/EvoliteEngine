@@ -1,23 +1,18 @@
 package com.evoliteengine.render.models;
 
+import com.evoliteengine.render.globjects.Vao;
+
 public class RawModel {
-	
-	private int vaoID;
-	private int vertexCount;
-	
-	public RawModel(int vaoID, int vertexCount){
-		this.vaoID = vaoID;
-		this.vertexCount = vertexCount;
+
+	private Vao vao;
+
+	public RawModel (Vao vao) {
+		this.vao = vao;
 	}
 
-	public int getVaoID() {
-		return vaoID;
+	public Vao getVao () {
+		return vao;
 	}
 
-	public int getVertexCount() {
-		return vertexCount;
-	}
-	
-	
 
 }

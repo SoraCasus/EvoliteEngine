@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.render.models.ModelData;
 import com.evoliteengine.util.EEFile;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -14,7 +15,6 @@ import com.evoliteengine.render.Loader;
 
 public class NormalMappedObjLoader {
 
-	private static final String RES_LOC = "res/";
 
 	public static RawModel loadOBJ(EEFile file, Loader loader) {
 		BufferedReader reader = file.getReader();
@@ -72,6 +72,14 @@ public class NormalMappedObjLoader {
 		float furthest = convertDataToArrays(vertices, textures, normals, verticesArray,
 				texturesArray, normalsArray, tangentsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
+
+		ModelData data = new ModelData();
+		data.setVertices(verticesArray);
+		data.setTexCoords(texturesArray);
+		data.setNormals(normalsArray);
+		data.setTangents(tangentsArray);
+		data.setFurthestPoint(furthest);
+		data.setIndices(indicesArray);
 
 		return loader.loadToVAO(verticesArray, texturesArray, normalsArray, tangentsArray, indicesArray);
 	}

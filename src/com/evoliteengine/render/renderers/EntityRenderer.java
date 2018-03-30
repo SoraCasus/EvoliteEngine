@@ -37,7 +37,7 @@ public class EntityRenderer {
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
 				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
+				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVao().getVertexCount(),
 						GL11.GL_UNSIGNED_INT, 0);
 			}
 			unbindTexturedModel();
@@ -46,10 +46,7 @@ public class EntityRenderer {
 
 	private void prepareTexturedModel(TexturedModel model) {
 		RawModel rawModel = model.getRawModel();
-		GL30.glBindVertexArray(rawModel.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
+		rawModel.getVao().bind(0, 1, 2);
 		ModelTexture texture = model.getTexture();
 		shader.numberOfRows.load(texture.getNumberOfRows());
 		if (texture.isHasTransparency()) {

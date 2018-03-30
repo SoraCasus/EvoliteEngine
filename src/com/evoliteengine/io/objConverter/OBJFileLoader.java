@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.render.models.ModelData;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -76,8 +77,12 @@ public class OBJFileLoader {
 		float furthest = convertDataToArrays(vertices, textures, normals, verticesArray,
 				texturesArray, normalsArray);
 		int[] indicesArray = convertIndicesListToArray(indices);
-		ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
-				furthest);
+		ModelData data = new ModelData();
+		data.setVertices(verticesArray);
+		data.setTexCoords(texturesArray);
+		data.setNormals(normalsArray);
+		data.setIndices(indicesArray);
+		data.setFurthestPoint(furthest);
 		return data;
 	}
 

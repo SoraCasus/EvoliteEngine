@@ -1,12 +1,13 @@
 package com.evoliteengine.render;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.texture.TextureData;
 
@@ -29,20 +30,23 @@ import com.evoliteengine.util.EEFile;
 
 public class Loader {
 
-	private List<Integer> vaos = new ArrayList<Integer>();
-	private List<Integer> vbos = new ArrayList<Integer>();
-	private List<Integer> textures = new ArrayList<Integer>();
+	private List<Integer> vaos = new ArrayList<>();
+	private List<Integer> vbos = new ArrayList<>();
+	private List<Integer> textures = new ArrayList<>();
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public RawModel loadToVAO (float[] positions, float[] textureCoords, float[] normals, int[] indices) {
-		int vaoID = createVAO();
-		bindIndicesBuffer(indices);
-		storeDataInAttributeList(0, 3, positions);
-		storeDataInAttributeList(1, 2, textureCoords);
-		storeDataInAttributeList(2, 3, normals);
-		unbindVAO();
-		return new RawModel(vaoID, indices.length);
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2);
+		vao.createIndexBuffer(indices);
+		vao.createAttribute(0, positions, 3);
+		vao.createAttribute(1, textureCoords, 2);
+		vao.createAttribute(2, normals, 3);
+		vao.unbind(0, 1, 2);
+		return new RawModel(vao);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public int loadToVAO (float[] positions, float[] textureCoords) {
 		int vaoID = createVAO();
 		storeDataInAttributeList(0, 2, positions);
@@ -51,18 +55,21 @@ public class Loader {
 		return vaoID;
 	}
 
-	public RawModel loadToVAO (float[] positions, float[] textureCoords, float[] normals, float[] tangents,
-	                           int[] indices) {
-		int vaoID = createVAO();
-		bindIndicesBuffer(indices);
-		storeDataInAttributeList(0, 3, positions);
-		storeDataInAttributeList(1, 2, textureCoords);
-		storeDataInAttributeList(2, 3, normals);
-		storeDataInAttributeList(3, 3, tangents);
-		unbindVAO();
-		return new RawModel(vaoID, indices.length);
+	@Deprecated(since = "0.2.2", forRemoval = true)
+	public RawModel loadToVAO (float[] positions, float[] textureCoords, float[] normals, float[] tangents, int[] indices) {
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2, 3);
+		vao.createIndexBuffer(indices);
+		vao.createAttribute(0, positions, 3);
+		vao.createAttribute(1, textureCoords, 2);
+		vao.createAttribute(2, normals, 3);
+		vao.createAttribute(3, tangents, 3);
+		vao.unbind(0, 1, 2, 3);
+
+		return new RawModel(vao);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public int createEmptyVbo (int floatCount) {
 		int vbo = GL15.glGenBuffers();
 		vbos.add(vbo);
@@ -72,6 +79,7 @@ public class Loader {
 		return vbo;
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public void addInstanceAttribute (int vao, int vbo, int attribute, int dataSize,
 	                                  int instancedDataLength, int offset) {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
@@ -83,6 +91,7 @@ public class Loader {
 		GL30.glBindVertexArray(0);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public void updateVbo (int vbo, float[] data, FloatBuffer buffer) {
 		buffer.clear();
 		buffer.put(data);
@@ -93,11 +102,18 @@ public class Loader {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	public RawModel loadToVAO (float[] positions, int dimensions) {
 		int vaoID = createVAO();
 		this.storeDataInAttributeList(0, dimensions, positions);
 		unbindVAO();
-		return new RawModel(vaoID, positions.length / dimensions);
+
+		Vao vao = new Vao();
+		vao.bind(0);
+		vao.createAttribute(0, positions, dimensions);
+		vao.setVertexCount(positions.length / dimensions);
+
+		return new RawModel(vao);
 	}
 
 	public int loadTexture (EEFile file) {
@@ -124,17 +140,16 @@ public class Loader {
 		return texture.getTextureID();
 	}
 
-	public int loadTextureAtlas (String fileName) {
+	public int loadTextureAtlas (EEFile file) {
 		Texture texture = null;
 		try {
-			texture = TextureLoader.getTexture("PNG",
-					new FileInputStream("res/" + fileName + ".png"));
+			texture = TextureLoader.getTexture("PNG", file.getInputStream());
 			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Tried to load texture " + fileName + ".png , didn't work");
+			System.err.println("Tried to load texture " + file.toString() + ", didn't work");
 			System.exit(-1);
 		}
 		textures.add(texture.getTextureID());
@@ -153,6 +168,7 @@ public class Loader {
 		}
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private int createVAO () {
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
@@ -160,6 +176,7 @@ public class Loader {
 		return vaoID;
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private void storeDataInAttributeList (int attributeNumber, int coordinateSize, float[] data) {
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
@@ -170,10 +187,12 @@ public class Loader {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private void unbindVAO () {
 		GL30.glBindVertexArray(0);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private void bindIndicesBuffer (int[] indices) {
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
@@ -182,6 +201,7 @@ public class Loader {
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private IntBuffer storeDataInIntBuffer (int[] data) {
 		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
 		buffer.put(data);
@@ -189,6 +209,7 @@ public class Loader {
 		return buffer;
 	}
 
+	@Deprecated(since = "0.2.2", forRemoval = true)
 	private FloatBuffer storeDataInFloatBuffer (float[] data) {
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
 		buffer.put(data);
@@ -201,7 +222,7 @@ public class Loader {
 		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
 
 		for (int i = 0; i < textureFiles.length; i++) {
-			TextureData data = decodeTextureFile("res/textures/skybox/" + textureFiles[i] + ".png");
+			TextureData data = decodeTextureFile(new EEFile("textures/skybox/" + textureFiles[i] + ".png"));
 			GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, data.getWidth(),
 					data.getWidth(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
 		}
@@ -211,12 +232,11 @@ public class Loader {
 		return texID;
 	}
 
-	private TextureData decodeTextureFile (String fileName) {
+	private TextureData decodeTextureFile (EEFile fileName) {
 		int width = 0;
 		int height = 0;
 		ByteBuffer buffer = null;
-		try {
-			FileInputStream in = new FileInputStream(fileName);
+		try (InputStream in = fileName.getInputStream()) {
 			PNGDecoder decoder = new PNGDecoder(in);
 			width = decoder.getWidth();
 			height = decoder.getHeight();

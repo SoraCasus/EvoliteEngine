@@ -32,7 +32,7 @@ public class TerrainRenderer {
 		for (Terrain terrain : terrains) {
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
-			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(),
+			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVao().getVertexCount(),
 					GL11.GL_UNSIGNED_INT, 0);
 			unbindTexturedModel();
 		}
@@ -40,10 +40,7 @@ public class TerrainRenderer {
 
 	private void prepareTerrain(Terrain terrain) {
 		RawModel rawModel = terrain.getModel();
-		GL30.glBindVertexArray(rawModel.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
+		rawModel.getVao().bind(0, 1, 2);
 		bindTextures(terrain);
 		shader.shineDamper.load(1);
 		shader.reflectivity.load(0);

@@ -20,9 +20,6 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-import com.evoliteengine.render.particles.ParticleMaster;
-import com.evoliteengine.render.particles.ParticleSystem;
-import com.evoliteengine.render.texture.ParticleTexture;
 import com.evoliteengine.render.globjects.Fbo;
 import com.evoliteengine.render.renderers.PostProcessing;
 import com.evoliteengine.render.DisplayManager;
@@ -47,12 +44,6 @@ public class MainGameLoop {
 
 	public static void main (String[] args) {
 
-		int type = 1;
-
-		if (type == 2) {
-			return;
-		}
-
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
@@ -64,9 +55,8 @@ public class MainGameLoop {
 		Camera camera = new Camera(player);
 
 		MasterRenderer renderer = new MasterRenderer(loader, camera);
-		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 
-		FontType font = new FontType(loader.loadTextureAtlas("font/candara"), new EEFile("font/candara.fnt"));
+		FontType font = new FontType(loader.loadTextureAtlas(new EEFile("font/candara.png")), new EEFile("font/candara.fnt"));
 		GUIText text = new GUIText("This is a test text", 3, font, new Vector2f(0.0f, 0.4f), 1.0f, true);
 		text.setColour(0.1f, 0.1f, 0.1f);
 
@@ -203,15 +193,6 @@ public class MainGameLoop {
 
 		*/
 
-		ParticleTexture particleTexture = new ParticleTexture(loader.loadTexture(new EEFile("textures/particles/particleAtlas.png")), 4);
-
-		ParticleSystem system = new ParticleSystem(particleTexture, 50, 25, 0.3f, 4, 1);
-		system.randomizeRotation();
-		system.setDirection(new Vector3f(0, 1, 0), 0.1f);
-		system.setLifeError(0.1f);
-		system.setSpeedError(0.4f);
-		system.setScaleError(0.8f);
-
 		Fbo multisampleFbo = new Fbo(Display.getWidth(), Display.getHeight());
 		Fbo outputFbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_TEXTURE);
 		Fbo outputFbo2 = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_TEXTURE);
@@ -220,9 +201,6 @@ public class MainGameLoop {
 		while (!Display.isCloseRequested()) {
 			player.move(terrain);
 			camera.move();
-
-		//	 system.generateParticles(player.getPosition());
-		//	ParticleMaster.update(camera);
 
 			renderer.renderShadowMap(entities, sun);
 
@@ -234,14 +212,14 @@ public class MainGameLoop {
 			camera.getPosition().y -= distance;
 			camera.invertPitch();
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 0f));
-			ParticleMaster.renderParticles(camera);
+
 			camera.getPosition().y += distance;
 			camera.invertPitch();
 
 			//refraction
 			fbos.bindRefractionFrameBuffer();
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
-			ParticleMaster.renderParticles(camera);
+
 
 			//Screen
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
@@ -251,7 +229,6 @@ public class MainGameLoop {
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 1000));
 			waterRenderer.render(waters, camera, light);
 
-			ParticleMaster.renderParticles(camera);
 			multisampleFbo.unbindFrameBuffer();
 			multisampleFbo.resolveToScreen();
 			multisampleFbo.resolveToFbo(GL30.GL_COLOR_ATTACHMENT0, outputFbo);
@@ -268,7 +245,6 @@ public class MainGameLoop {
 		outputFbo.cleanUp();
 		outputFbo2.cleanUp();
 		multisampleFbo.cleanUp();
-		ParticleMaster.cleanUp();
 		TextMaster.cleanUp();
 		fbos.cleanUp();
 		waterShader.delete();

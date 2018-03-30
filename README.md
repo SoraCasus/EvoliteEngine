@@ -8,13 +8,15 @@ Planned features:
 - [ ] Animation
 - [ ] Interactive GUI
 
-
 Todo:
 - [x] Rewrite shader system
 - [x] Transfer shaders to new system
+- [x] Vao/Vbo management
+- [ ] Remove Loader class entirely (Kill the beast!)
+- [ ] BUG: Water reflecting too much
+- [ ] Rebuild Particle System (It did not survive VAO / VBO Migration)
 - [ ] Merge OBJ File input (normal mapped and standard OBJ's) <- Current Task
 - [ ] Reorganize code
 - [ ] Logging system
-- [ ] Vao/Vbo management
 - [ ] Game loop & Time
 - [ ] Smooth Shadows

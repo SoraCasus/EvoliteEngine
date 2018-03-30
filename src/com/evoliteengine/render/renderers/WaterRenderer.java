@@ -23,7 +23,7 @@ import com.evoliteengine.render.water.WaterTile;
 
 public class WaterRenderer {
 
-	private static final EEFile DUDV_MAP = new EEFile("textures/water/dudv.png");
+	private static final EEFile DUDV_MAP = new EEFile("textures/water/DUDV.png");
 	private static final EEFile NORMAL_MAP = new EEFile("textures/normal/normal.png");
 	private static final float WAVE_SPEED = 0.03f;
 
@@ -36,8 +36,8 @@ public class WaterRenderer {
 	private int dudvTexture;
 	private int normalMap;
 
-	public WaterRenderer(Loader loader, WaterShader shader, Matrix4f projectionMatrix,
-	                     WaterFrameBuffers fbos) {
+	public WaterRenderer (Loader loader, WaterShader shader, Matrix4f projectionMatrix,
+	                      WaterFrameBuffers fbos) {
 		this.shader = shader;
 		this.fbos = fbos;
 		dudvTexture = loader.loadTexture(DUDV_MAP);
@@ -48,19 +48,19 @@ public class WaterRenderer {
 		setUpVAO(loader);
 	}
 
-	public void render(List<WaterTile> water, Camera camera, Light sun) {
+	public void render (List<WaterTile> water, Camera camera, Light sun) {
 		prepareRender(camera, sun);
 		for (WaterTile tile : water) {
 			Matrix4f modelMatrix = Maths.createTransformationMatrix(
 					new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0,
 					WaterTile.TILE_SIZE);
 			shader.modelMat.load(modelMatrix);
-			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
+			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVao().getVertexCount());
 		}
 		unbind();
 	}
 
-	private void prepareRender(Camera camera, Light sun) {
+	private void prepareRender (Camera camera, Light sun) {
 		shader.start();
 		shader.viewMat.load(Maths.createViewMatrix(camera));
 		moveFactor += WAVE_SPEED * DisplayManager.getFrameTimeSeconds();
@@ -68,8 +68,9 @@ public class WaterRenderer {
 		shader.moveFactor.load(moveFactor);
 		shader.lightColour.load(sun.getColour());
 		shader.lightPosition.load(sun.getPosition());
-		GL30.glBindVertexArray(quad.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
+
+		quad.getVao().bind(0);
+
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getReflectionTexture());
 		shader.reflectionTexture.load(0);
@@ -89,16 +90,16 @@ public class WaterRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	private void unbind() {
+	private void unbind () {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 		shader.stop();
 	}
 
-	private void setUpVAO(Loader loader) {
+	private void setUpVAO (Loader loader) {
 		// Just x and z vectex positions here, y is set to 0 in v.shader
-		float[] vertices = {-1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1};
+		float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
 		quad = loader.loadToVAO(vertices, 2);
 	}
 

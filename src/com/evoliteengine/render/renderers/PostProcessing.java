@@ -9,8 +9,8 @@ import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.Loader;
 
 public class PostProcessing {
-	
-	private static final float[] POSITIONS = { -1, 1, -1, -1, 1, 1, 1, -1 };	
+
+	private static final float[] POSITIONS = { -1, 1, -1, -1, 1, 1, 1, -1 };
 	private static RawModel quad;
 	private static ContrastChanger contrastChanger;
 	private static HorizontalBlur hBlur;
@@ -18,16 +18,16 @@ public class PostProcessing {
 	private static BrightFilterRenderer brightFilter;
 	private static CombineFilterRenderer combineFilter;
 
-	public static void init(Loader loader){
+	public static void init (Loader loader) {
 		quad = loader.loadToVAO(POSITIONS, 2);
 		contrastChanger = new ContrastChanger();
-		hBlur = new HorizontalBlur(Display.getWidth()/5, Display.getHeight()/5);
-		vBlur = new VerticalBlur(Display.getWidth()/5, Display.getHeight()/5);
-		brightFilter = new BrightFilterRenderer(Display.getHeight()/2, Display.getWidth()/2);
+		hBlur = new HorizontalBlur(Display.getWidth() / 5, Display.getHeight() / 5);
+		vBlur = new VerticalBlur(Display.getWidth() / 5, Display.getHeight() / 5);
+		brightFilter = new BrightFilterRenderer(Display.getHeight() / 2, Display.getWidth() / 2);
 		combineFilter = new CombineFilterRenderer();
 	}
-	
-	public static void doPostProcessing(int colourTexture, int brightTexture){
+
+	public static void doPostProcessing (int colourTexture, int brightTexture) {
 		start();
 		brightFilter.render(colourTexture);
 		hBlur.render(brightTexture);
@@ -36,22 +36,21 @@ public class PostProcessing {
 		contrastChanger.render(colourTexture);
 		end();
 	}
-	
-	public static void cleanUp(){
+
+	public static void cleanUp () {
 		contrastChanger.cleanUp();
 		hBlur.cleanUp();
 		vBlur.cleanUp();
 		brightFilter.cleanUp();
 		combineFilter.cleanUp();
 	}
-	
-	private static void start(){
-		GL30.glBindVertexArray(quad.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
+
+	private static void start () {
+		quad.getVao().bind(0);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 	}
-	
-	private static void end(){
+
+	private static void end () {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
