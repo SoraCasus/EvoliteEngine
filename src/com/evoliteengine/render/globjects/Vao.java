@@ -15,7 +15,6 @@ import java.util.List;
 public class Vao implements IDisposable {
 
 	private static final int BYTES_PER_FLOAT = 4;
-	private static final int BYTES_PER_INT = 4;
 	public final int vaoID;
 	private List<Vbo> dataVbos;
 	private Vbo indexVbo;

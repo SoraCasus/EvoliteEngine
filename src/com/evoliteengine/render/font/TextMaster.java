@@ -11,13 +11,12 @@ import java.util.Map;
 
 public class TextMaster {
 
-	private static Loader loader;
+
 	private static Map<FontType, List<GUIText>> texts = new HashMap<>();
 	private static FontRenderer renderer;
 
-	public static void init (Loader theLoader) {
+	public static void init () {
 		renderer = new FontRenderer();
-		loader = theLoader;
 	}
 
 	public static void render () {
