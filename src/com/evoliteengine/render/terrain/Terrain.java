@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -27,17 +28,17 @@ public class Terrain {
 	private float z;
 	private int gridX;
 	private int gridZ;
-	private RawModel model;
+	private Vao model;
 	private TerrainTexturePack texturePack;
 	private TerrainTexture blendMap;
-	
+
 	private static Random random = new Random();
 	private static final int SEED = random.nextInt(1000000000);
-	
+
 	private float[][] heights;
 
-	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
-			TerrainTexture blendMap, EEFile heightMap) {
+	public Terrain (int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
+	                TerrainTexture blendMap, EEFile heightMap) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
@@ -46,9 +47,9 @@ public class Terrain {
 		this.gridZ = gridZ;
 		this.model = generateTerrain(loader, heightMap);
 	}
-	
-	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
-			TerrainTexture blendMap, int numberOfVertices) {
+
+	public Terrain (int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
+	                TerrainTexture blendMap, int numberOfVertices) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
@@ -59,58 +60,58 @@ public class Terrain {
 		this.model = generateTerrain(loader, numberOfVertices);
 	}
 
-	public float getX() {
+	public float getX () {
 		return x;
 	}
 
-	public float getZ() {
+	public float getZ () {
 		return z;
 	}
 
-	public RawModel getModel() {
+	public Vao getVao () {
 		return model;
 	}
 
-	public TerrainTexturePack getTexturePack() {
+	public TerrainTexturePack getTexturePack () {
 		return texturePack;
 	}
 
-	public TerrainTexture getBlendMap() {
+	public TerrainTexture getBlendMap () {
 		return blendMap;
 	}
-	
-    public float getHeightOfTerrain(float worldX, float worldZ) {
-        float terrainX = worldX - this.x;
-        float terrainZ = worldZ - this.z;
-        float gridSquareSize = SIZE / ((float) heights.length - 1);
-        int gridX = (int) Math.floor(terrainX / gridSquareSize);
-        int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
-         
-        if(gridX >= heights.length - 1 || gridZ >= heights.length - 1 || gridX < 0 || gridZ < 0) {
-            return 0;
-        }
-         
-        float xCoord = (terrainX % gridSquareSize)/gridSquareSize;
-        float zCoord = (terrainZ % gridSquareSize)/gridSquareSize;
-        float answer;
-         
-        if (xCoord <= (1-zCoord)) {
-            answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1,
-                            heights[gridX + 1][gridZ], 0), new Vector3f(0,
-                            heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
-        } else {
-            answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1,
-                            heights[gridX + 1][gridZ + 1], 1), new Vector3f(0,
-                            heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
-        }
-         
-        return answer;
-    }
 
-	private RawModel generateTerrain(Loader loader, int numberOfVertices) {
-		
+	public float getHeightOfTerrain (float worldX, float worldZ) {
+		float terrainX = worldX - this.x;
+		float terrainZ = worldZ - this.z;
+		float gridSquareSize = SIZE / ((float) heights.length - 1);
+		int gridX = (int) Math.floor(terrainX / gridSquareSize);
+		int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
+
+		if (gridX >= heights.length - 1 || gridZ >= heights.length - 1 || gridX < 0 || gridZ < 0) {
+			return 0;
+		}
+
+		float xCoord = (terrainX % gridSquareSize) / gridSquareSize;
+		float zCoord = (terrainZ % gridSquareSize) / gridSquareSize;
+		float answer;
+
+		if (xCoord <= (1 - zCoord)) {
+			answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1,
+					heights[gridX + 1][gridZ], 0), new Vector3f(0,
+					heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+		} else {
+			answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1,
+					heights[gridX + 1][gridZ + 1], 1), new Vector3f(0,
+					heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+		}
+
+		return answer;
+	}
+
+	private Vao generateTerrain (Loader loader, int numberOfVertices) {
+
 		int VERTEX_COUNT = numberOfVertices;
-		
+
 		//HeightsGenerator generator = new HeightsGenerator(gridX, gridZ, VERTEX_COUNT, SEED);
 		HeightsGenerator generator = new HeightsGenerator();
 		int count = VERTEX_COUNT * VERTEX_COUNT;
@@ -151,11 +152,19 @@ public class Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return loader.loadToVAO(vertices, textureCoords, normals, indices);
+
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2);
+		vao.createIndexBuffer(indices);
+		vao.createAttribute(0, vertices, 3);
+		vao.createAttribute(1, textureCoords, 2);
+		vao.createAttribute(2, normals, 3);
+		vao.unbind(0, 1, 2);
+		return vao;
 	}
-	
-	private RawModel generateTerrain(Loader loader, EEFile heightMap) {
-		
+
+	private Vao generateTerrain (Loader loader, EEFile heightMap) {
+
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(heightMap.getInputStream());
@@ -163,7 +172,7 @@ public class Terrain {
 			e.printStackTrace();
 		}
 
-		assert(image != null);
+		assert (image != null);
 		int VERTEX_COUNT = image.getHeight();
 
 		int count = VERTEX_COUNT * VERTEX_COUNT;
@@ -204,43 +213,51 @@ public class Terrain {
 				indices[pointer++] = bottomRight;
 			}
 		}
-		return loader.loadToVAO(vertices, textureCoords, normals, indices);
+
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2);
+		vao.createIndexBuffer(indices);
+		vao.createAttribute(0, vertices, 3);
+		vao.createAttribute(1, textureCoords, 2);
+		vao.createAttribute(2, normals, 3);
+		vao.unbind(0, 1, 2);
+		return vao;
 	}
-	
-	private Vector3f calculateNormal(int x, int z, BufferedImage image){
-		float heightL = getHeight(x-1, z, image);
-		float heightR = getHeight(x+1, z, image);
-		float heightD = getHeight(x, z-1, image);
-		float heightU = getHeight(x, z+1, image);
-		Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
+
+	private Vector3f calculateNormal (int x, int z, BufferedImage image) {
+		float heightL = getHeight(x - 1, z, image);
+		float heightR = getHeight(x + 1, z, image);
+		float heightD = getHeight(x, z - 1, image);
+		float heightU = getHeight(x, z + 1, image);
+		Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
 		normal.normalise();
 		return normal;
 	}
-	
-	private Vector3f calculateNormal(int x, int z, HeightsGenerator generator){
-		float heightL = getHeight(x-1, z, generator);
-		float heightR = getHeight(x+1, z, generator);
-		float heightD = getHeight(x, z-1, generator);
-		float heightU = getHeight(x, z+1, generator);
-		Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
+
+	private Vector3f calculateNormal (int x, int z, HeightsGenerator generator) {
+		float heightL = getHeight(x - 1, z, generator);
+		float heightR = getHeight(x + 1, z, generator);
+		float heightD = getHeight(x, z - 1, generator);
+		float heightU = getHeight(x, z + 1, generator);
+		Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
 		normal.normalise();
 		return normal;
 	}
-	
-	private float getHeight(int x, int z, BufferedImage image){
-		if(x<0 || x>=image.getHeight() || z<0 || z>=image.getHeight()){
+
+	private float getHeight (int x, int z, BufferedImage image) {
+		if (x < 0 || x >= image.getHeight() || z < 0 || z >= image.getHeight()) {
 			return 0;
 		}
 		float height = image.getRGB(x, z);
-		height += MAX_PIXEL_COLOUR/2f;
-		height /= MAX_PIXEL_COLOUR/2f;
+		height += MAX_PIXEL_COLOUR / 2f;
+		height /= MAX_PIXEL_COLOUR / 2f;
 		height *= MAX_HEIGHT;
 		return height;
 	}
-	
-	private float getHeight(int x, int z, HeightsGenerator generator){
+
+	private float getHeight (int x, int z, HeightsGenerator generator) {
 		return generator.generateHeight(x, z);
 	}
 
-	
+
 }

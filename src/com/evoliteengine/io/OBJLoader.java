@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.evoliteengine.render.Loader;
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -14,7 +15,7 @@ import com.evoliteengine.util.EEFile;
 @Deprecated(forRemoval = true, since = "0.2.0")
 public class OBJLoader {
 
-	public static RawModel loadObjModel(EEFile file, Loader loader) {
+	public static Vao loadObjModel (EEFile file, Loader loader) {
 
 		BufferedReader reader = file.getReader();
 		String line;
@@ -59,10 +60,10 @@ public class OBJLoader {
 				String[] vertex1 = currentLine[1].split("/");
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
-				
-				processVertex(vertex1,indices,textures,normals,textureArray,normalsArray);
-				processVertex(vertex2,indices,textures,normals,textureArray,normalsArray);
-				processVertex(vertex3,indices,textures,normals,textureArray,normalsArray);
+
+				processVertex(vertex1, indices, textures, normals, textureArray, normalsArray);
+				processVertex(vertex2, indices, textures, normals, textureArray, normalsArray);
+				processVertex(vertex3, indices, textures, normals, textureArray, normalsArray);
 				line = reader.readLine();
 			}
 			reader.close();
@@ -70,36 +71,43 @@ public class OBJLoader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		verticesArray = new float[vertices.size()*3];
+
+		verticesArray = new float[vertices.size() * 3];
 		indicesArray = new int[indices.size()];
-		
+
 		int vertexPointer = 0;
-		for(Vector3f vertex:vertices){
+		for (Vector3f vertex : vertices) {
 			verticesArray[vertexPointer++] = vertex.x;
 			verticesArray[vertexPointer++] = vertex.y;
 			verticesArray[vertexPointer++] = vertex.z;
 		}
-		
-		for(int i=0;i<indices.size();i++){
+
+		for (int i = 0; i < indices.size(); i++) {
 			indicesArray[i] = indices.get(i);
 		}
-		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2);
+		vao.createIndexBuffer(indicesArray);
+		vao.createAttribute(0, verticesArray, 3);
+		vao.createAttribute(1, textureArray, 2);
+		vao.createAttribute(2, normalsArray, 3);
+		vao.unbind(0, 1, 2);
+		return vao;
 	}
 
-	private static void processVertex(String[] vertexData, List<Integer> indices,
-			List<Vector2f> textures, List<Vector3f> normals, float[] textureArray,
-			float[] normalsArray) {
+	private static void processVertex (String[] vertexData, List<Integer> indices,
+	                                   List<Vector2f> textures, List<Vector3f> normals, float[] textureArray,
+	                                   float[] normalsArray) {
 		int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
 		indices.add(currentVertexPointer);
-		Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1])-1);
-		textureArray[currentVertexPointer*2] = currentTex.x;
-		textureArray[currentVertexPointer*2+1] = 1 - currentTex.y;
-		Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2])-1);
-		normalsArray[currentVertexPointer*3] = currentNorm.x;
-		normalsArray[currentVertexPointer*3+1] = currentNorm.y;
-		normalsArray[currentVertexPointer*3+2] = currentNorm.z;	
+		Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1]) - 1);
+		textureArray[currentVertexPointer * 2] = currentTex.x;
+		textureArray[currentVertexPointer * 2 + 1] = 1 - currentTex.y;
+		Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2]) - 1);
+		normalsArray[currentVertexPointer * 3] = currentNorm.x;
+		normalsArray[currentVertexPointer * 3 + 1] = currentNorm.y;
+		normalsArray[currentVertexPointer * 3 + 2] = currentNorm.z;
 	}
 
 }

@@ -9,6 +9,7 @@ import com.evoliteengine.render.entities.Player;
 import com.evoliteengine.render.font.FontType;
 import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.font.TextMaster;
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.renderers.GuiRenderer;
@@ -47,7 +48,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
-		RawModel bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"), loader);
+		Vao bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"), loader);
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
 				loader.loadTexture(new EEFile("textures/diffuse/playerTexture.png"))));
 

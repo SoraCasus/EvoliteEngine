@@ -1,5 +1,6 @@
 package com.evoliteengine.render.renderers;
 
+import com.evoliteengine.render.globjects.Vao;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -11,7 +12,7 @@ import com.evoliteengine.render.Loader;
 public class PostProcessing {
 
 	private static final float[] POSITIONS = { -1, 1, -1, -1, 1, 1, 1, -1 };
-	private static RawModel quad;
+	private static Vao quad;
 	private static ContrastChanger contrastChanger;
 	private static HorizontalBlur hBlur;
 	private static VerticalBlur vBlur;
@@ -19,7 +20,12 @@ public class PostProcessing {
 	private static CombineFilterRenderer combineFilter;
 
 	public static void init (Loader loader) {
-		quad = loader.loadToVAO(POSITIONS, 2);
+		Vao vao = new Vao();
+		vao.bind(0);
+		vao.createAttribute(0, POSITIONS, 2);
+		vao.setVertexCount(POSITIONS.length / 2);
+		vao.unbind(0);
+		quad = vao;
 		contrastChanger = new ContrastChanger();
 		hBlur = new HorizontalBlur(Display.getWidth() / 5, Display.getHeight() / 5);
 		vBlur = new VerticalBlur(Display.getWidth() / 5, Display.getHeight() / 5);
@@ -46,7 +52,7 @@ public class PostProcessing {
 	}
 
 	private static void start () {
-		quad.getVao().bind(0);
+		quad.bind(0);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 	}
 

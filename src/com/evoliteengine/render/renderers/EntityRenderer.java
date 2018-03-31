@@ -22,7 +22,7 @@ public class EntityRenderer {
 
 	private StaticShader shader;
 
-	public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
+	public EntityRenderer (StaticShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
 		shader.start();
 		shader.projMat.load(projectionMatrix);
@@ -30,23 +30,23 @@ public class EntityRenderer {
 		shader.stop();
 	}
 
-	public void render(Map<TexturedModel, List<Entity>> entities, Matrix4f toShadowMapSpace) {
+	public void render (Map<TexturedModel, List<Entity>> entities, Matrix4f toShadowMapSpace) {
 		shader.toShadowMapSpace.load(toShadowMapSpace);
 		for (TexturedModel model : entities.keySet()) {
 			prepareTexturedModel(model);
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
 				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVao().getVertexCount(),
+				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVao().getVertexCount(),
 						GL11.GL_UNSIGNED_INT, 0);
 			}
 			unbindTexturedModel();
 		}
 	}
 
-	private void prepareTexturedModel(TexturedModel model) {
-		RawModel rawModel = model.getRawModel();
-		rawModel.getVao().bind(0, 1, 2);
+	private void prepareTexturedModel (TexturedModel model) {
+
+		model.getVao().bind(0, 1, 2);
 		ModelTexture texture = model.getTexture();
 		shader.numberOfRows.load(texture.getNumberOfRows());
 		if (texture.isHasTransparency()) {
@@ -66,7 +66,7 @@ public class EntityRenderer {
 		}
 	}
 
-	private void unbindTexturedModel() {
+	private void unbindTexturedModel () {
 		MasterRenderer.enableCulling();
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
@@ -74,7 +74,7 @@ public class EntityRenderer {
 		GL30.glBindVertexArray(0);
 	}
 
-	private void prepareInstance(Entity entity) {
+	private void prepareInstance (Entity entity) {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(),
 				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		shader.tfMat.load(transformationMatrix);

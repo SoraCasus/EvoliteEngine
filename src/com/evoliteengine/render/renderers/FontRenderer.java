@@ -44,15 +44,11 @@ public class FontRenderer {
 	}
 
 	private void renderText (GUIText text) {
-		GL30.glBindVertexArray(text.getMesh());
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
+		text.getMesh().bind(0, 1);
 		shader.colour.load(text.getColour());
 		shader.translation.load(text.getPosition());
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.getVertexCount());
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL30.glBindVertexArray(0);
+		text.getMesh().unbind(0, 1);
 	}
 
 	private void endRendering () {

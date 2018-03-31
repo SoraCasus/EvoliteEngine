@@ -32,15 +32,14 @@ public class TerrainRenderer {
 		for (Terrain terrain : terrains) {
 			prepareTerrain(terrain);
 			loadModelMatrix(terrain);
-			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVao().getVertexCount(),
+			GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getVao().getVertexCount(),
 					GL11.GL_UNSIGNED_INT, 0);
 			unbindTexturedModel();
 		}
 	}
 
 	private void prepareTerrain(Terrain terrain) {
-		RawModel rawModel = terrain.getModel();
-		rawModel.getVao().bind(0, 1, 2);
+		terrain.getVao().bind(0, 1, 2);
 		bindTextures(terrain);
 		shader.shineDamper.load(1);
 		shader.reflectivity.load(0);

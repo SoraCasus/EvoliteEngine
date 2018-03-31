@@ -43,7 +43,7 @@ public class NormalMappingRenderer {
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
 				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVao().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVao().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
 			unbindTexturedModel();
 		}
@@ -55,8 +55,8 @@ public class NormalMappingRenderer {
 	}
 
 	private void prepareTexturedModel(TexturedModel model) {
-		RawModel rawModel = model.getRawModel();
-		rawModel.getVao().bind(0, 1, 2, 3);
+
+		model.getVao().bind(0, 1, 2, 3);
 		ModelTexture texture = model.getTexture();
 		shader.numberOfRows.load(texture.getNumberOfRows());
 		if (texture.isHasTransparency()) {

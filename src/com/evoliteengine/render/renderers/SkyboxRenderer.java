@@ -1,5 +1,6 @@
 package com.evoliteengine.render.renderers;
 
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.shader.SkyboxShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -60,18 +61,23 @@ public class SkyboxRenderer {
 			SIZE, -SIZE, SIZE
 	};
 
-	private static String[] TEXTURE_FILES = {"day/right", "day/left", "day/top", "day/bottom", "day/back", "day/front"};
-	private static String[] NIGHT_TEXTURE_FILES = {"night/nightRight", "night/nightLeft", "night/nighTtop",
-			"night/nightBottom", "night/nightBack", "night/nightFront"};
+	private static String[] TEXTURE_FILES = { "day/right", "day/left", "day/top", "day/bottom", "day/back", "day/front" };
+	private static String[] NIGHT_TEXTURE_FILES = { "night/nightRight", "night/nightLeft", "night/nighTtop",
+			"night/nightBottom", "night/nightBack", "night/nightFront" };
 
-	private RawModel cube;
+	private Vao cube;
 	private int texture;
 	private int nightTexture;
 	private SkyboxShader shader;
 	private float time = 0;
 
-	public SkyboxRenderer(Loader loader, Matrix4f projectionMatrix) {
-		cube = loader.loadToVAO(VERTICES, 3);
+	public SkyboxRenderer (Loader loader, Matrix4f projectionMatrix) {
+		Vao vao = new Vao();
+		vao.bind(0);
+		vao.createAttribute(0, VERTICES, 3);
+		vao.setVertexCount(VERTICES.length / 3);
+		vao.unbind(0);
+		cube = vao;
 		texture = loader.loadCubeMap(TEXTURE_FILES);
 		nightTexture = loader.loadCubeMap(NIGHT_TEXTURE_FILES);
 		shader = new SkyboxShader();
@@ -82,19 +88,19 @@ public class SkyboxRenderer {
 		shader.stop();
 	}
 
-	public void render(Camera camera, float r, float g, float b) {
+	public void render (Camera camera, float r, float g, float b) {
 		shader.start();
 		shader.loadViewMatrix(camera);
 		shader.fogColour.load(new Vector3f(r, g, b));
-		cube.getVao().bind(0);
+		cube.bind(0);
 		bindTextures();
-		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, cube.getVao().getVertexCount());
+		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, cube.getVertexCount());
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
 		shader.stop();
 	}
 
-	private void bindTextures() {
+	private void bindTextures () {
 		time += DisplayManager.getFrameTimeSeconds() * 100;
 		time %= 24000;
 		int texture1;

@@ -2,6 +2,7 @@ package com.evoliteengine.render.renderers;
 
 import java.util.List;
 
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.RawModel;
 
 import org.lwjgl.opengl.GL11;
@@ -27,7 +28,7 @@ public class WaterRenderer {
 	private static final EEFile NORMAL_MAP = new EEFile("textures/normal/normal.png");
 	private static final float WAVE_SPEED = 0.03f;
 
-	private RawModel quad;
+	private Vao quad;
 	private WaterShader shader;
 	private WaterFrameBuffers fbos;
 
@@ -55,7 +56,7 @@ public class WaterRenderer {
 					new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0,
 					WaterTile.TILE_SIZE);
 			shader.modelMat.load(modelMatrix);
-			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVao().getVertexCount());
+			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
 		}
 		unbind();
 	}
@@ -69,7 +70,7 @@ public class WaterRenderer {
 		shader.lightColour.load(sun.getColour());
 		shader.lightPosition.load(sun.getPosition());
 
-		quad.getVao().bind(0);
+		quad.bind(0);
 
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getReflectionTexture());
@@ -100,7 +101,13 @@ public class WaterRenderer {
 	private void setUpVAO (Loader loader) {
 		// Just x and z vectex positions here, y is set to 0 in v.shader
 		float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
-		quad = loader.loadToVAO(vertices, 2);
+
+		Vao vao = new Vao();
+		vao.bind(0);
+		vao.createAttribute(0, vertices, 2);
+		vao.setVertexCount(vertices.length / 2);
+		vao.unbind(0);
+		quad = vao;
 	}
 
 }

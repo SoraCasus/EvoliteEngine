@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.ModelData;
 import com.evoliteengine.util.EEFile;
 import org.lwjgl.util.vector.Vector2f;
@@ -16,7 +17,7 @@ import com.evoliteengine.render.Loader;
 public class NormalMappedObjLoader {
 
 
-	public static RawModel loadOBJ(EEFile file, Loader loader) {
+	public static Vao loadOBJ (EEFile file, Loader loader) {
 		BufferedReader reader = file.getReader();
 		String line;
 		List<VertexNM> vertices = new ArrayList<>();
@@ -81,12 +82,20 @@ public class NormalMappedObjLoader {
 		data.setFurthestPoint(furthest);
 		data.setIndices(indicesArray);
 
-		return loader.loadToVAO(verticesArray, texturesArray, normalsArray, tangentsArray, indicesArray);
+		Vao vao = new Vao();
+		vao.bind(0, 1, 2, 3);
+		vao.createIndexBuffer(indicesArray);
+		vao.createAttribute(0, verticesArray, 3);
+		vao.createAttribute(1, texturesArray, 2);
+		vao.createAttribute(2, normalsArray, 3);
+		vao.createAttribute(3, tangentsArray, 3);
+		vao.unbind(0, 1, 2, 3);
+		return vao;
 	}
 
 	//NEW 
-	private static void calculateTangents(VertexNM v0, VertexNM v1, VertexNM v2,
-			List<Vector2f> textures) {
+	private static void calculateTangents (VertexNM v0, VertexNM v1, VertexNM v2,
+	                                       List<Vector2f> textures) {
 		Vector3f delatPos1 = Vector3f.sub(v1.getPosition(), v0.getPosition(), null);
 		Vector3f delatPos2 = Vector3f.sub(v2.getPosition(), v0.getPosition(), null);
 		Vector2f uv0 = textures.get(v0.getTextureIndex());
@@ -105,8 +114,8 @@ public class NormalMappedObjLoader {
 		v2.addTangent(tangent);
 	}
 
-	private static VertexNM processVertex(String[] vertex, List<VertexNM> vertices,
-			List<Integer> indices) {
+	private static VertexNM processVertex (String[] vertex, List<VertexNM> vertices,
+	                                       List<Integer> indices) {
 		int index = Integer.parseInt(vertex[0]) - 1;
 		VertexNM currentVertex = vertices.get(index);
 		int textureIndex = Integer.parseInt(vertex[1]) - 1;
@@ -122,7 +131,7 @@ public class NormalMappedObjLoader {
 		}
 	}
 
-	private static int[] convertIndicesListToArray(List<Integer> indices) {
+	private static int[] convertIndicesListToArray (List<Integer> indices) {
 		int[] indicesArray = new int[indices.size()];
 		for (int i = 0; i < indicesArray.length; i++) {
 			indicesArray[i] = indices.get(i);
@@ -130,9 +139,9 @@ public class NormalMappedObjLoader {
 		return indicesArray;
 	}
 
-	private static float convertDataToArrays(List<VertexNM> vertices, List<Vector2f> textures,
-			List<Vector3f> normals, float[] verticesArray, float[] texturesArray,
-			float[] normalsArray, float[] tangentsArray) {
+	private static float convertDataToArrays (List<VertexNM> vertices, List<Vector2f> textures,
+	                                          List<Vector3f> normals, float[] verticesArray, float[] texturesArray,
+	                                          float[] normalsArray, float[] tangentsArray) {
 		float furthestPoint = 0;
 		for (int i = 0; i < vertices.size(); i++) {
 			VertexNM currentVertex = vertices.get(i);
@@ -159,8 +168,8 @@ public class NormalMappedObjLoader {
 		return furthestPoint;
 	}
 
-	private static VertexNM dealWithAlreadyProcessedVertex(VertexNM previousVertex, int newTextureIndex,
-			int newNormalIndex, List<Integer> indices, List<VertexNM> vertices) {
+	private static VertexNM dealWithAlreadyProcessedVertex (VertexNM previousVertex, int newTextureIndex,
+	                                                        int newNormalIndex, List<Integer> indices, List<VertexNM> vertices) {
 		if (previousVertex.hasSameTextureAndNormal(newTextureIndex, newNormalIndex)) {
 			indices.add(previousVertex.getIndex());
 			return previousVertex;
@@ -181,7 +190,7 @@ public class NormalMappedObjLoader {
 		}
 	}
 
-	private static void removeUnusedVertices(List<VertexNM> vertices) {
+	private static void removeUnusedVertices (List<VertexNM> vertices) {
 		for (VertexNM vertex : vertices) {
 			vertex.averageTangents();
 			if (!vertex.isSet()) {
