@@ -150,7 +150,7 @@ public class ShaderProgram implements IDisposable {
 	}
 
 	private String getShaderTypeString (int type) {
-		String res = "UNKNOWN";
+		String res;
 		// @formatter:off
 		switch(type) {
 			case GL20.GL_VERTEX_SHADER : {
@@ -171,6 +171,10 @@ public class ShaderProgram implements IDisposable {
 
 			case GL40.GL_TESS_EVALUATION_SHADER : {
 				res = "TESSELATION EVALUATION";
+			} break;
+
+			default : {
+				res = "UNKNOWN";
 			} break;
 		}
 		// @formatter:on
