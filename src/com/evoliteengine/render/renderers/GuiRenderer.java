@@ -1,6 +1,5 @@
 package com.evoliteengine.render.renderers;
 
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.shader.GuiShader;
 import com.evoliteengine.render.texture.GuiTexture;
@@ -18,11 +17,12 @@ public class GuiRenderer {
 	private final Vao quad;
 	private GuiShader shader;
 
-	public GuiRenderer (Loader loader) {
+	public GuiRenderer () {
 		float[] positions = { -1, 1, -1, -1, 1, 1, 1, -1 };
 		Vao vao = new Vao();
 		vao.bind(0);
-		vao.createAttribute(0, positions, 2);
+
+			vao.createAttribute(0, positions, 2);
 		vao.setVertexCount(positions.length / 2);
 		vao.unbind(0);
 		quad = vao;

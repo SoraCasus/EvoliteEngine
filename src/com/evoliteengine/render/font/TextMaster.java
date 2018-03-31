@@ -1,6 +1,5 @@
 package com.evoliteengine.render.font;
 
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.renderers.FontRenderer;
 

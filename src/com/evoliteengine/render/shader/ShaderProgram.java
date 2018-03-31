@@ -1,5 +1,6 @@
 package com.evoliteengine.render.shader;
 
+
 import com.evoliteengine.core.IDisposable;
 import com.evoliteengine.render.shader.uniform.Uniform;
 import com.evoliteengine.util.EEFile;
@@ -10,6 +11,8 @@ import org.lwjgl.opengl.GL40;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShaderProgram implements IDisposable {
 
@@ -73,24 +76,28 @@ public class ShaderProgram implements IDisposable {
 			GL20.glBindAttribLocation(programID, i, attribs[i]);
 	}
 
-	protected void bindAttribute (String name, int index, boolean done) {
-		GL20.glBindAttribLocation(programID, index, name);
-		if(done) {
-			GL20.glValidateProgram(programID);
-			checkError(programID, GL20.GL_VALIDATE_STATUS, true);
-		}
-	}
-
 	private ShaderIDs loadShader (EEFile shader) {
 		ShaderIDs res = new ShaderIDs();
 
-		StringBuilder vertSrc = new StringBuilder();
-		StringBuilder fragSrc = new StringBuilder();
-		StringBuilder geomSrc = new StringBuilder();
-		StringBuilder tessEvalSrc = new StringBuilder();
-		StringBuilder tessCtrlSrc = new StringBuilder();
-		StringBuilder current = null;
+		Map<String, StringBuilder> sources = parseShader(shader);
 
+		res.vertID = compileShader(sources.get("VERT"), GL20.GL_VERTEX_SHADER);
+		res.fragID = compileShader(sources.get("FRAG"), GL20.GL_FRAGMENT_SHADER);
+		res.geomID = compileShader(sources.get("GEOM"), GL32.GL_GEOMETRY_SHADER);
+		res.tessEvalID = compileShader(sources.get("TESS_EVAL"), GL40.GL_TESS_EVALUATION_SHADER);
+		res.tessCtrlID = compileShader(sources.get("TESS_CTRL"), GL40.GL_TESS_CONTROL_SHADER);
+
+		return res;
+	}
+
+	private Map<String, StringBuilder> parseShader (EEFile shader) {
+		Map<String, StringBuilder> res = new HashMap<>();
+		res.put("VERT", new StringBuilder());
+		res.put("FRAG", new StringBuilder());
+		res.put("GEOM", new StringBuilder());
+		res.put("TESS_EVAL", new StringBuilder());
+		res.put("TESS_CTRL", new StringBuilder());
+		StringBuilder current = null;
 
 		try (BufferedReader reader = shader.getReader()) {
 			String line;
@@ -98,15 +105,15 @@ public class ShaderProgram implements IDisposable {
 				if (line.startsWith("#shader")) {
 
 					if (line.startsWith("#shader vertex")) {
-						current = vertSrc;
+						current = res.get("VERT");
 					} else if (line.startsWith("#shader fragment")) {
-						current = fragSrc;
+						current = res.get("FRAG");
 					} else if (line.startsWith("#shader geometry")) {
-						current = geomSrc;
+						current = res.get("GEOM");
 					} else if (line.startsWith("#shader tess control")) {
-						current = tessCtrlSrc;
+						current = res.get("TESS_CTRL");
 					} else if (line.startsWith("#shader tess evaluation")) {
-						current = tessEvalSrc;
+						current = res.get("TESS_EVAL");
 					} else {
 						current = null;
 					}
@@ -126,57 +133,49 @@ public class ShaderProgram implements IDisposable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return res;
+	}
 
-		if (!vertSrc.toString().isEmpty()) {
-			int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
-			GL20.glShaderSource(id, vertSrc);
+	private int compileShader (StringBuilder source, int type) {
+		int id = -1;
+		if (!source.toString().isEmpty()) {
+			id = GL20.glCreateShader(type);
+			GL20.glShaderSource(id, source);
 			GL20.glCompileShader(id);
-			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
-				System.err.println("Shader: VERTEX, " + shader);
+			if (checkError(id, GL20.GL_COMPILE_STATUS, false)) {
+				System.err.println("Shader: " + getShaderTypeString(type) + ", " + source);
 			}
-			res.vertID = id;
 		}
+		return id;
+	}
 
-		if (!fragSrc.toString().isEmpty()) {
-			int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-			GL20.glShaderSource(id, fragSrc);
-			GL20.glCompileShader(id);
-			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
-				System.err.println("Shader: FRAGMENT, " + shader);
-			}
-			res.fragID = id;
+	private String getShaderTypeString (int type) {
+		String res = "UNKNOWN";
+		// @formatter:off
+		switch(type) {
+			case GL20.GL_VERTEX_SHADER : {
+				res = "VERTEX";
+			} break;
+
+			case GL20.GL_FRAGMENT_SHADER : {
+				res = "FRAGMENT";
+			} break;
+
+			case GL32.GL_GEOMETRY_SHADER : {
+				res = "GEOMETRY";
+			} break;
+
+			case GL40.GL_TESS_CONTROL_SHADER : {
+				res = "TESSELATION CONTROL";
+			} break;
+
+			case GL40.GL_TESS_EVALUATION_SHADER : {
+				res = "TESSELATION EVALUATION";
+			} break;
+
+			default : {} break;
 		}
-
-		if (!geomSrc.toString().isEmpty()) {
-			int id = GL20.glCreateShader(GL32.GL_GEOMETRY_SHADER);
-			GL20.glShaderSource(id, geomSrc);
-			GL20.glCompileShader(id);
-			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
-				System.err.println("Shader: GEOMETRY, " + shader);
-			}
-			res.geomID = id;
-		}
-
-		if (!tessEvalSrc.toString().isEmpty()) {
-			int id = GL20.glCreateShader(GL40.GL_TESS_EVALUATION_SHADER);
-			GL20.glShaderSource(id, tessEvalSrc);
-			GL20.glCompileShader(id);
-			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
-				System.err.println("Shader: TESSELATION EVALUATION, " + shader);
-			}
-			res.tessEvalID = id;
-		}
-
-		if (!tessCtrlSrc.toString().isEmpty()) {
-			int id = GL20.glCreateShader(GL40.GL_TESS_CONTROL_SHADER);
-			GL20.glShaderSource(id, tessCtrlSrc);
-			GL20.glCompileShader(id);
-			if(checkError(id, GL20.GL_COMPILE_STATUS, false)){
-				System.err.println("Shader: TESSELATION CONTROL, " + shader);
-			}
-			res.tessCtrlID = id;
-		}
-
+		// @formatter:on
 		return res;
 	}
 
@@ -213,11 +212,11 @@ public class ShaderProgram implements IDisposable {
 	}
 
 	private class ShaderIDs {
-		int vertID = -1;
-		int fragID = -1;
-		int geomID = -1;
-		int tessEvalID = -1;
-		int tessCtrlID = -1;
+		int vertID;
+		int fragID;
+		int geomID;
+		int tessEvalID;
+		int tessCtrlID;
 	}
 
 }

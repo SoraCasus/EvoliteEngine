@@ -96,7 +96,7 @@ public class MainGameLoop {
 		fern.getTexture().setHasTransparency(true);
 
 		// Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, new EEFile("textures/terrain/heightmap/customHeightMap.png"));
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, 256);
+		Terrain terrain = new Terrain(0, -1, texturePack, blendMap, 256);
 		List<Terrain> terrains = new ArrayList<>();
 		terrains.add(terrain);
 
@@ -169,7 +169,7 @@ public class MainGameLoop {
 
 
 		List<GuiTexture> guiTextures = new ArrayList<>();
-		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		GuiRenderer guiRenderer = new GuiRenderer();
 
 
 //		GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(),

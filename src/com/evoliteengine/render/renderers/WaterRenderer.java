@@ -43,7 +43,7 @@ public class WaterRenderer {
 		shader.start();
 		shader.projMat.load(projectionMatrix);
 		shader.stop();
-		setUpVAO(loader);
+		setUpVAO();
 	}
 
 	public void render (List<WaterTile> water, Camera camera, Light sun) {
@@ -95,7 +95,7 @@ public class WaterRenderer {
 		shader.stop();
 	}
 
-	private void setUpVAO (Loader loader) {
+	private void setUpVAO () {
 		// Just x and z vectex positions here, y is set to 0 in v.shader
 		float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
 

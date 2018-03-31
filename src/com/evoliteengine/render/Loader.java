@@ -105,7 +105,6 @@ public class Loader {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Tried to load texture " + fileName + ", didn't work");
-			System.exit(-1);
 		}
 		return new TextureData(buffer, width, height);
 	}

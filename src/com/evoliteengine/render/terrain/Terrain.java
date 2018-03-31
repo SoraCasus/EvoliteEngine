@@ -29,11 +29,11 @@ public class Terrain {
 	private TerrainTexture blendMap;
 
 	private static Random random = new Random();
-	private static final int SEED = random.nextInt(1000000000);
+	// private static final int SEED = random.nextInt(1000000000);
 
 	private float[][] heights;
 
-	public Terrain (int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
+	public Terrain (int gridX, int gridZ, TerrainTexturePack texturePack,
 	                TerrainTexture blendMap, EEFile heightMap) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
@@ -41,10 +41,10 @@ public class Terrain {
 		this.z = gridZ * SIZE;
 		this.gridX = gridX;
 		this.gridZ = gridZ;
-		this.model = generateTerrain(loader, heightMap);
+		this.model = generateTerrain(heightMap);
 	}
 
-	public Terrain (int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
+	public Terrain (int gridX, int gridZ, TerrainTexturePack texturePack,
 	                TerrainTexture blendMap, int numberOfVertices) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
@@ -53,7 +53,7 @@ public class Terrain {
 		this.gridX = gridX;
 		this.gridZ = gridZ;
 		//this.model = generateTerrain(loader, heightMap);
-		this.model = generateTerrain(loader, numberOfVertices);
+		this.model = generateTerrain(numberOfVertices);
 	}
 
 	public float getX () {
@@ -104,41 +104,39 @@ public class Terrain {
 		return answer;
 	}
 
-	private Vao generateTerrain (Loader loader, int numberOfVertices) {
-
-		int VERTEX_COUNT = numberOfVertices;
+	private Vao generateTerrain (int numberOfVertices) {
 
 		//HeightsGenerator generator = new HeightsGenerator(gridX, gridZ, VERTEX_COUNT, SEED);
 		HeightsGenerator generator = new HeightsGenerator();
-		int count = VERTEX_COUNT * VERTEX_COUNT;
-		heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+		int count = numberOfVertices * numberOfVertices;
+		heights = new float[numberOfVertices][numberOfVertices];
 		float[] vertices = new float[count * 3];
 		float[] normals = new float[count * 3];
 		float[] textureCoords = new float[count * 2];
-		int[] indices = new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT * 1)];
+		int[] indices = new int[6 * (numberOfVertices - 1) * (numberOfVertices * 1)];
 		int vertexPointer = 0;
-		for (int i = 0; i < VERTEX_COUNT; i++) {
-			for (int j = 0; j < VERTEX_COUNT; j++) {
-				vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
+		for (int i = 0; i < numberOfVertices; i++) {
+			for (int j = 0; j < numberOfVertices; j++) {
+				vertices[vertexPointer * 3] = (float) j / ((float) numberOfVertices - 1) * SIZE;
 				float height = getHeight(j, i, generator);
 				vertices[vertexPointer * 3 + 1] = height;
 				heights[j][i] = height;
-				vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
+				vertices[vertexPointer * 3 + 2] = (float) i / ((float) numberOfVertices - 1) * SIZE;
 				Vector3f normal = calculateNormal(j, i, generator);
 				normals[vertexPointer * 3] = normal.x;
 				normals[vertexPointer * 3 + 1] = normal.y;
 				normals[vertexPointer * 3 + 2] = normal.z;
-				textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
-				textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
+				textureCoords[vertexPointer * 2] = (float) j / ((float) numberOfVertices - 1);
+				textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) numberOfVertices - 1);
 				vertexPointer++;
 			}
 		}
 		int pointer = 0;
-		for (int gz = 0; gz < VERTEX_COUNT - 1; gz++) {
-			for (int gx = 0; gx < VERTEX_COUNT - 1; gx++) {
-				int topLeft = (gz * VERTEX_COUNT) + gx;
+		for (int gz = 0; gz < numberOfVertices - 1; gz++) {
+			for (int gx = 0; gx < numberOfVertices - 1; gx++) {
+				int topLeft = (gz * numberOfVertices) + gx;
 				int topRight = topLeft + 1;
-				int bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
+				int bottomLeft = ((gz + 1) * numberOfVertices) + gx;
 				int bottomRight = bottomLeft + 1;
 				indices[pointer++] = topLeft;
 				indices[pointer++] = bottomLeft;
@@ -159,7 +157,7 @@ public class Terrain {
 		return vao;
 	}
 
-	private Vao generateTerrain (Loader loader, EEFile heightMap) {
+	private Vao generateTerrain (EEFile heightMap) {
 
 		BufferedImage image = null;
 		try {
@@ -176,7 +174,7 @@ public class Terrain {
 		float[] vertices = new float[count * 3];
 		float[] normals = new float[count * 3];
 		float[] textureCoords = new float[count * 2];
-		int[] indices = new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT * 1)];
+		int[] indices = new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT)];
 		int vertexPointer = 0;
 		for (int i = 0; i < VERTEX_COUNT; i++) {
 			for (int j = 0; j < VERTEX_COUNT; j++) {
