@@ -46,7 +46,7 @@ public class MainGameLoop {
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-		TextMaster.init(loader);
+		TextMaster.init();
 		Vao bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"));
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
 				loader.loadTexture(new EEFile("textures/diffuse/playerTexture.png"))));

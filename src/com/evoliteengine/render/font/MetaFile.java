@@ -1,6 +1,7 @@
 package com.evoliteengine.render.font;
 
 import com.evoliteengine.util.EEFile;
+import com.evoliteengine.util.math.Vec2d;
 import org.lwjgl.opengl.Display;
 
 import java.io.BufferedReader;
@@ -34,10 +35,10 @@ public class MetaFile {
 	private int paddingWidth;
 	private int paddingHeight;
 
-	private Map<Integer, Character> metaData = new HashMap<Integer, Character>();
+	private Map<Integer, Character> metaData = new HashMap<>();
 
 	private BufferedReader reader;
-	private Map<String, String> values = new HashMap<String, String>();
+	private Map<String, String> values = new HashMap<>();
 
 	/**
 	 * Opens a font file in preparation for reading.
@@ -202,6 +203,7 @@ public class MetaFile {
 		double xOff = (getValueOfVariable("xoffset") + padding[PAD_LEFT] - DESIRED_PADDING) * horizontalPerPixelSize;
 		double yOff = (getValueOfVariable("yoffset") + (padding[PAD_TOP] - DESIRED_PADDING)) * verticalPerPixelSize;
 		double xAdvance = (getValueOfVariable("xadvance") - paddingWidth) * horizontalPerPixelSize;
-		return new Character(id, xTex, yTex, xTexSize, yTexSize, xOff, yOff, quadWidth, quadHeight, xAdvance);
+		return new Character(id, new Vec2d(xTex, yTex), new Vec2d(xTexSize, yTexSize),
+				new Vec2d(xOff, yOff), new Vec2d(quadWidth, quadHeight), xAdvance);
 	}
 }

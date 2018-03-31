@@ -58,7 +58,6 @@ public class Loader {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Tried to load texture " + file.toString() + ", didn't work");
-			System.exit(-1);
 		}
 		textures.add(texture.getTextureID());
 		return texture.getTextureID();
