@@ -1,7 +1,12 @@
 package com.evoliteengine.render.shader;
 
 
-import com.evoliteengine.render.shader.uniform.*;
+import com.evoliteengine.render.shader.uniform.UniformFloat;
+import com.evoliteengine.render.shader.uniform.UniformMat4;
+import com.evoliteengine.render.shader.uniform.UniformSampler;
+import com.evoliteengine.render.shader.uniform.UniformVec3;
+import com.evoliteengine.render.shader.uniform.UniformVec3Array;
+import com.evoliteengine.render.shader.uniform.UniformVec4;
 import com.evoliteengine.util.EEFile;
 
 public class TerrainShader extends ShaderProgram {

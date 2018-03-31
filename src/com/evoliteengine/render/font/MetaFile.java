@@ -1,12 +1,12 @@
 package com.evoliteengine.render.font;
 
+import com.evoliteengine.util.EEFile;
+import org.lwjgl.opengl.Display;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.lwjgl.opengl.Display;
-import com.evoliteengine.util.EEFile;
 
 /**
  * Provides functionality for getting the values from a font file.

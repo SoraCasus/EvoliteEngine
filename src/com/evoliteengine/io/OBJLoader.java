@@ -1,21 +1,18 @@
 package com.evoliteengine.io;
 
+import com.evoliteengine.render.globjects.Vao;
+import com.evoliteengine.util.EEFile;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.evoliteengine.render.Loader;
-import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.models.RawModel;
-
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import com.evoliteengine.util.EEFile;
-
 @Deprecated(forRemoval = true, since = "0.2.0")
 public class OBJLoader {
 
-	public static Vao loadObjModel (EEFile file, Loader loader) {
+	public static Vao loadObjModel (EEFile file) {
 
 		BufferedReader reader = file.getReader();
 		String line;

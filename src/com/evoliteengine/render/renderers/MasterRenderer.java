@@ -1,14 +1,15 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.evoliteengine.render.Loader;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.models.TexturedModel;
-
 import com.evoliteengine.render.shader.NormalMappingShader;
+import com.evoliteengine.render.shader.StaticShader;
+import com.evoliteengine.render.shader.TerrainShader;
+import com.evoliteengine.render.terrain.Terrain;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -16,13 +17,10 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import com.evoliteengine.render.shader.StaticShader;
-import com.evoliteengine.render.shader.TerrainShader;
-import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.entities.Entity;
-import com.evoliteengine.render.entities.Light;
-import com.evoliteengine.util.Maths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MasterRenderer {
 

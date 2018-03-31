@@ -1,12 +1,10 @@
 package com.evoliteengine.render.entities;
 
+import com.evoliteengine.render.DisplayManager;
 import com.evoliteengine.render.models.TexturedModel;
-
+import com.evoliteengine.render.terrain.Terrain;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
-
-import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.terrain.Terrain;
 
 public class Player extends Entity {
 

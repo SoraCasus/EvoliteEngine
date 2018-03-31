@@ -1,8 +1,10 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-import java.util.Map;
-
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.models.TexturedModel;
+import com.evoliteengine.render.shader.ShadowShader;
 import com.evoliteengine.render.shadow.ShadowBox;
 import com.evoliteengine.render.shadow.ShadowFrameBuffer;
 import org.lwjgl.opengl.GL11;
@@ -10,11 +12,8 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.entities.Entity;
-import com.evoliteengine.render.entities.Light;
-import com.evoliteengine.render.models.TexturedModel;
-import com.evoliteengine.render.shader.ShadowShader;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is in charge of using all of the classes in the shadows package to

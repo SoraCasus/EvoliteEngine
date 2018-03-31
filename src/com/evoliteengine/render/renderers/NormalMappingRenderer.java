@@ -1,9 +1,12 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-import java.util.Map;
-
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.shader.NormalMappingShader;
+import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -13,13 +16,8 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.entities.Entity;
-import com.evoliteengine.render.entities.Light;
-import com.evoliteengine.render.models.RawModel;
-import com.evoliteengine.render.models.TexturedModel;
-import com.evoliteengine.render.texture.ModelTexture;
-import com.evoliteengine.util.Maths;
+import java.util.List;
+import java.util.Map;
 
 public class NormalMappingRenderer {
 

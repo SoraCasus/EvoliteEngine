@@ -1,7 +1,6 @@
 package com.evoliteengine.render.shader;
 
 
-import com.evoliteengine.render.shader.ShaderProgram;
 import com.evoliteengine.render.shader.uniform.UniformFloat;
 import com.evoliteengine.render.shader.uniform.UniformMat4;
 import com.evoliteengine.render.shader.uniform.UniformSampler;

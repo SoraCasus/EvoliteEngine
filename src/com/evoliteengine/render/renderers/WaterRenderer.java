@@ -1,10 +1,15 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-
+import com.evoliteengine.render.DisplayManager;
+import com.evoliteengine.render.Loader;
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.models.RawModel;
-
+import com.evoliteengine.render.shader.WaterShader;
+import com.evoliteengine.render.water.WaterFrameBuffers;
+import com.evoliteengine.render.water.WaterTile;
+import com.evoliteengine.util.EEFile;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -12,15 +17,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.Loader;
-import com.evoliteengine.util.Maths;
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.entities.Light;
-import com.evoliteengine.util.EEFile;
-import com.evoliteengine.render.water.WaterFrameBuffers;
-import com.evoliteengine.render.shader.WaterShader;
-import com.evoliteengine.render.water.WaterTile;
+import java.util.List;
 
 public class WaterRenderer {
 

@@ -1,20 +1,18 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-import java.util.Map;
-
+import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.globjects.Vao;
+import com.evoliteengine.render.models.TexturedModel;
+import com.evoliteengine.render.shader.ShadowShader;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
-import com.evoliteengine.render.entities.Entity;
-import com.evoliteengine.render.models.RawModel;
-import com.evoliteengine.render.models.TexturedModel;
-import com.evoliteengine.render.shader.ShadowShader;
-import com.evoliteengine.util.Maths;
+import java.util.List;
+import java.util.Map;
 
 public class ShadowMapEntityRenderer {
 

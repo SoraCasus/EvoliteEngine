@@ -1,13 +1,13 @@
 package com.evoliteengine.render.font;
 
+import com.evoliteengine.render.Loader;
+import com.evoliteengine.render.globjects.Vao;
+import com.evoliteengine.render.renderers.FontRenderer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.renderers.FontRenderer;
-import com.evoliteengine.render.Loader;
 
 public class TextMaster {
 

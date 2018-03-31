@@ -8,9 +8,9 @@ import com.evoliteengine.render.shader.uniform.UniformMat4;
 import com.evoliteengine.render.shader.uniform.UniformSampler;
 import com.evoliteengine.render.shader.uniform.UniformVec3;
 import com.evoliteengine.util.EEFile;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import com.evoliteengine.util.Maths;
 
 public class SkyboxShader extends ShaderProgram {
 

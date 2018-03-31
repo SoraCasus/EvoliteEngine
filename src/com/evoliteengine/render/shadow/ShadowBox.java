@@ -1,12 +1,11 @@
 package com.evoliteengine.render.shadow;
 
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.renderers.MasterRenderer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-
-import com.evoliteengine.render.entities.Camera;
-import com.evoliteengine.render.renderers.MasterRenderer;
 
 /**
  * Represents the 3D cuboidal area of the world in which objects will cast

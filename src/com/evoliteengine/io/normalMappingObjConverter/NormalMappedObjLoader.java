@@ -1,23 +1,21 @@
 package com.evoliteengine.io.normalMappingObjConverter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.models.ModelData;
 import com.evoliteengine.util.EEFile;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.evoliteengine.render.models.RawModel;
-import com.evoliteengine.render.Loader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class NormalMappedObjLoader {
 
 
-	public static Vao loadOBJ (EEFile file, Loader loader) {
+	public static Vao loadOBJ (EEFile file) {
 		BufferedReader reader = file.getReader();
 		String line;
 		List<VertexNM> vertices = new ArrayList<>();

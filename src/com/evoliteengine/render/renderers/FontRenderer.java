@@ -1,16 +1,13 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-import java.util.Map;
-
+import com.evoliteengine.render.font.FontType;
+import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.shader.FontShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
-import com.evoliteengine.render.font.FontType;
-import com.evoliteengine.render.font.GUIText;
+import java.util.List;
+import java.util.Map;
 
 public class FontRenderer {
 

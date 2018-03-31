@@ -1,22 +1,18 @@
 package com.evoliteengine.render.terrain;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-
+import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.models.RawModel;
-
+import com.evoliteengine.render.texture.TerrainTexture;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.util.EEFile;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.evoliteengine.render.Loader;
-import com.evoliteengine.render.texture.TerrainTexture;
-import com.evoliteengine.render.texture.TerrainTexturePack;
-import com.evoliteengine.util.Maths;
-import com.evoliteengine.util.EEFile;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
 
 public class Terrain {
 

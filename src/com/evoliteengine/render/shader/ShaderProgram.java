@@ -2,11 +2,11 @@ package com.evoliteengine.render.shader;
 
 import com.evoliteengine.core.IDisposable;
 import com.evoliteengine.render.shader.uniform.Uniform;
+import com.evoliteengine.util.EEFile;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.GL40;
-import com.evoliteengine.util.EEFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;

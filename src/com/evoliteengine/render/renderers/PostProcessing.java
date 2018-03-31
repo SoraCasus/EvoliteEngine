@@ -1,13 +1,11 @@
 package com.evoliteengine.render.renderers;
 
+import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-
-import com.evoliteengine.render.models.RawModel;
-import com.evoliteengine.render.Loader;
 
 public class PostProcessing {
 

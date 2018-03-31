@@ -1,7 +1,6 @@
 package com.evoliteengine.render.entities;
 
 import com.evoliteengine.render.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity {

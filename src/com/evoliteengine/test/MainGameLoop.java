@@ -1,7 +1,10 @@
 package com.evoliteengine.test;
 
 
+import com.evoliteengine.io.OBJLoader;
 import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
+import com.evoliteengine.render.DisplayManager;
+import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
@@ -9,11 +12,21 @@ import com.evoliteengine.render.entities.Player;
 import com.evoliteengine.render.font.FontType;
 import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.font.TextMaster;
+import com.evoliteengine.render.globjects.Fbo;
 import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.models.RawModel;
 import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.renderers.GuiRenderer;
+import com.evoliteengine.render.renderers.MasterRenderer;
+import com.evoliteengine.render.renderers.PostProcessing;
+import com.evoliteengine.render.renderers.WaterRenderer;
+import com.evoliteengine.render.shader.WaterShader;
+import com.evoliteengine.render.terrain.Terrain;
 import com.evoliteengine.render.texture.GuiTexture;
+import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.render.texture.TerrainTexture;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.render.water.WaterFrameBuffers;
+import com.evoliteengine.render.water.WaterTile;
 import com.evoliteengine.util.EEFile;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -21,20 +34,6 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-import com.evoliteengine.render.globjects.Fbo;
-import com.evoliteengine.render.renderers.PostProcessing;
-import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.Loader;
-import com.evoliteengine.render.renderers.MasterRenderer;
-import com.evoliteengine.io.OBJLoader;
-import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.texture.ModelTexture;
-import com.evoliteengine.render.texture.TerrainTexture;
-import com.evoliteengine.render.texture.TerrainTexturePack;
-import com.evoliteengine.render.water.WaterFrameBuffers;
-import com.evoliteengine.render.renderers.WaterRenderer;
-import com.evoliteengine.render.shader.WaterShader;
-import com.evoliteengine.render.water.WaterTile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
-		Vao bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"), loader);
+		Vao bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"));
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
 				loader.loadTexture(new EEFile("textures/diffuse/playerTexture.png"))));
 
@@ -74,19 +73,19 @@ public class MainGameLoop {
 
 		// *****************************************
 
-		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj"), loader),
+		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj")),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/grassTexture.png"))));
-		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj"), loader),
+		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj")),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/flower.png"))));
 
 
 		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/fern.png")));
 		fernTextureAtlas.setNumberOfRows(2);
 
-		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/fern.obj"), loader), fernTextureAtlas);
+		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/fern.obj")), fernTextureAtlas);
 
 
-		TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/pine.obj"), loader),
+		TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/pine.obj")),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/pine.png"))));
 		bobble.getTexture().setHasTransparency(true);
 
@@ -106,7 +105,7 @@ public class MainGameLoop {
 
 		entities.add(player);
 
-		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ(new EEFile("models/boulder.obj"), loader),
+		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ(new EEFile("models/boulder.obj")),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/boulder.png"))));
 		barrelModel.getTexture().setNormalMap(loader.loadTexture(new EEFile("textures/normal/boulderNormal.png")));
 		barrelModel.getTexture().setShineDamper(10);
@@ -114,7 +113,7 @@ public class MainGameLoop {
 
 		normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, -75), 0, 0, 0, 1f));
 
-		TexturedModel cherryModel = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/cherry.obj"), loader),
+		TexturedModel cherryModel = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/cherry.obj")),
 				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/cherry.png"))));
 		cherryModel.getTexture().setHasTransparency(true);
 		cherryModel.getTexture().setShineDamper(10);
@@ -161,7 +160,7 @@ public class MainGameLoop {
 
 		ModelTexture lampTexture = new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/lantern.png")));
 		lampTexture.setUseFakeLighting(true);
-		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/lantern.obj"), loader), lampTexture);
+		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/lantern.obj")), lampTexture);
 		lampTexture.setExtraInfoMap(loader.loadTexture(new EEFile("textures/specular/lanternS.png")));
 		entities.add(new Entity(lamp, new Vector3f(185, terrain.getHeightOfTerrain(185, -293), -293), 0, 0, 0, 1));
 		entities.add(new Entity(lamp, new Vector3f(370, terrain.getHeightOfTerrain(370, -300), -300), 0, 0, 0, 1));

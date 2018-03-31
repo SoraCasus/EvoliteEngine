@@ -1,5 +1,9 @@
 package com.evoliteengine.io.objConverter;
 
+import com.evoliteengine.render.models.ModelData;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,10 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.evoliteengine.render.models.ModelData;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 public class OBJFileLoader {
 	

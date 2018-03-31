@@ -1,9 +1,9 @@
 package com.evoliteengine.render.renderers;
 
-import java.util.List;
-
-import com.evoliteengine.render.models.RawModel;
-
+import com.evoliteengine.render.shader.TerrainShader;
+import com.evoliteengine.render.terrain.Terrain;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -11,10 +11,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.evoliteengine.render.shader.TerrainShader;
-import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.texture.TerrainTexturePack;
-import com.evoliteengine.util.Maths;
+import java.util.List;
 
 public class TerrainRenderer {
 

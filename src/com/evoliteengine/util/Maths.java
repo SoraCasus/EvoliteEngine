@@ -1,10 +1,9 @@
 package com.evoliteengine.util;
 
+import com.evoliteengine.render.entities.Camera;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
-import com.evoliteengine.render.entities.Camera;
 
 public class Maths {
 	

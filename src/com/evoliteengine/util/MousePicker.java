@@ -1,14 +1,13 @@
 package com.evoliteengine.util;
 
+import com.evoliteengine.render.entities.Camera;
+import com.evoliteengine.render.terrain.Terrain;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-
-import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.entities.Camera;
 
 public class MousePicker {
 
