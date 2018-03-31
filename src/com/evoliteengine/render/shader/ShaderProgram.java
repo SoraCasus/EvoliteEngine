@@ -172,8 +172,6 @@ public class ShaderProgram implements IDisposable {
 			case GL40.GL_TESS_EVALUATION_SHADER : {
 				res = "TESSELATION EVALUATION";
 			} break;
-
-			default : {} break;
 		}
 		// @formatter:on
 		return res;
@@ -212,11 +210,11 @@ public class ShaderProgram implements IDisposable {
 	}
 
 	private class ShaderIDs {
-		int vertID;
-		int fragID;
-		int geomID;
-		int tessEvalID;
-		int tessCtrlID;
+		private int vertID;
+		private int fragID;
+		private int geomID;
+		private int tessEvalID;
+		private int tessCtrlID;
 	}
 
 }

@@ -54,8 +54,7 @@ public class MousePicker {
 		Vector2f normalizedCoords = getNormalisedDeviceCoordinates(mouseX, mouseY);
 		Vector4f clipCoords = new Vector4f(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
 		Vector4f eyeCoords = toEyeCoords(clipCoords);
-		Vector3f worldRay = toWorldCoords(eyeCoords);
-		return worldRay;
+		return toWorldCoords(eyeCoords);
 	}
 
 	private Vector3f toWorldCoords(Vector4f eyeCoords) {
@@ -91,7 +90,7 @@ public class MousePicker {
 		float half = start + ((finish - start) / 2f);
 		if (count >= RECURSION_COUNT) {
 			Vector3f endPoint = getPointOnRay(ray, half);
-			Terrain terrain = getTerrain(endPoint.getX(), endPoint.getZ());
+			// Terrain terrain = getTerrain(endPoint.getX(), endPoint.getZ());
 			if (terrain != null) {
 				return endPoint;
 			} else {
@@ -108,28 +107,19 @@ public class MousePicker {
 	private boolean intersectionInRange(float start, float finish, Vector3f ray) {
 		Vector3f startPoint = getPointOnRay(ray, start);
 		Vector3f endPoint = getPointOnRay(ray, finish);
-		if (!isUnderGround(startPoint) && isUnderGround(endPoint)) {
-			return true;
-		} else {
-			return false;
-		}
+		return !isUnderGround(startPoint) && isUnderGround(endPoint);
 	}
 
 	private boolean isUnderGround(Vector3f testPoint) {
-		Terrain terrain = getTerrain(testPoint.getX(), testPoint.getZ());
+		// Terrain terrain = getTerrain(testPoint.getX(), testPoint.getZ());
 		float height = 0;
 		if (terrain != null) {
 			height = terrain.getHeightOfTerrain(testPoint.getX(), testPoint.getZ());
 		}
-		if (testPoint.y < height) {
-			return true;
-		} else {
-			return false;
-		}
+		return testPoint.y < height;
 	}
 
-	private Terrain getTerrain(float worldX, float worldZ) {
-		return terrain;
-	}
+	/* Used for mouse picking positions on terrain */
+	// private Terrain getTerrain(float worldX, float worldZ) { return terrain; }
 
 }

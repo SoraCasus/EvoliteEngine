@@ -1,6 +1,5 @@
 package com.evoliteengine.render.terrain;
 
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.texture.TerrainTexture;
 import com.evoliteengine.render.texture.TerrainTexturePack;
@@ -12,7 +11,6 @@ import org.lwjgl.util.vector.Vector3f;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 
 public class Terrain {
 
@@ -22,13 +20,14 @@ public class Terrain {
 
 	private float x;
 	private float z;
-	private int gridX;
-	private int gridZ;
+	/* Potentially used when using multiple terrains stitched together */
+	// private int gridX;
+	// private int gridZ;
 	private Vao model;
 	private TerrainTexturePack texturePack;
 	private TerrainTexture blendMap;
 
-	private static Random random = new Random();
+	// private static Random random = new Random();
 	// private static final int SEED = random.nextInt(1000000000);
 
 	private float[][] heights;
@@ -39,8 +38,8 @@ public class Terrain {
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
-		this.gridX = gridX;
-		this.gridZ = gridZ;
+		// this.gridX = gridX;
+		// this.gridZ = gridZ;
 		this.model = generateTerrain(heightMap);
 	}
 
@@ -50,8 +49,8 @@ public class Terrain {
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
 		this.z = gridZ * SIZE;
-		this.gridX = gridX;
-		this.gridZ = gridZ;
+		// this.gridX = gridX;
+		// this.gridZ = gridZ;
 		//this.model = generateTerrain(loader, heightMap);
 		this.model = generateTerrain(numberOfVertices);
 	}
@@ -113,7 +112,7 @@ public class Terrain {
 		float[] vertices = new float[count * 3];
 		float[] normals = new float[count * 3];
 		float[] textureCoords = new float[count * 2];
-		int[] indices = new int[6 * (numberOfVertices - 1) * (numberOfVertices * 1)];
+		int[] indices = new int[6 * (numberOfVertices - 1) * (numberOfVertices)];
 		int vertexPointer = 0;
 		for (int i = 0; i < numberOfVertices; i++) {
 			for (int j = 0; j < numberOfVertices; j++) {
