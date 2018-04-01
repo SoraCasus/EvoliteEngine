@@ -1,4 +1,6 @@
-<b>Evolite Engine v0.2.2f</b>
+<b>Evolite Engine v0.2.2g</b>
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75a73f27b1b24a529f02300a8739bb9e)](https://www.codacy.com/app/joshua90123/EvoliteEngine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SoraCasus/EvoliteEngine&amp;utm_campaign=Badge_Grade)
 
 A 3D rendering engine I hope to soon implement into a Game Engine
 Planned features: 
@@ -16,10 +18,15 @@ Todo:
     - [x] Remove redundant RawModel class
     - [ ] Migrate to abstracted Texture system
     - [ ] Implement better file I/O system
-- [ ] BUG: Water reflecting too much
+- [ ] Scene graph system
+    - [ ] Component based rendering
 - [ ] Rebuild Particle System (It did not survive VAO / VBO Migration)
 - [ ] Merge OBJ File input (normal mapped and standard OBJ's)
 - [ ] Reorganize code
 - [ ] Logging system
 - [ ] Game loop & Time
 - [ ] Smooth Shadows
+
+Bugs:
+- [ ] Water rendering improperly
+    - Most likely a miscalculation in shader
