@@ -2,24 +2,25 @@ package com.evoliteengine.render.models;
 
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.texture.ModelTexture;
+import com.evoliteengine.render.texture.Texture;
 
 public class TexturedModel {
 
 	private Vao vao;
-	private ModelTexture texture;
+	private Material material;
 
 
-	public TexturedModel (Vao vao, ModelTexture texture) {
+	public TexturedModel (Vao vao, Material material) {
 		this.vao = vao;
-		this.texture = texture;
+		this.material = material;
 	}
 
 	public Vao getVao () {
 		return vao;
 	}
 
-	public ModelTexture getTexture () {
-		return texture;
+	public Material getMaterial () {
+		return material;
 	}
 
 }

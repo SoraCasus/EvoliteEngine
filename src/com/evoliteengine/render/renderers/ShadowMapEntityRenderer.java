@@ -25,7 +25,7 @@ public class ShadowMapEntityRenderer {
 	 * @param projectionViewMatrix - the orthographic projection matrix multiplied by the light's
 	 *                             "view" matrix.
 	 */
-	public ShadowMapEntityRenderer (ShadowShader shader, Matrix4f projectionViewMatrix) {
+	public ShadowMapEntityRenderer(ShadowShader shader, Matrix4f projectionViewMatrix) {
 		this.shader = shader;
 		this.projectionViewMatrix = projectionViewMatrix;
 	}
@@ -36,33 +36,31 @@ public class ShadowMapEntityRenderer {
 	 *
 	 * @param entities - the entities to be rendered to the shadow map.
 	 */
-	public void render (Map<TexturedModel, List<Entity>> entities) {
+	public void render(Map<TexturedModel, List<Entity>> entities) {
 		for (TexturedModel model : entities.keySet()) {
 			bindModel(model.getVao());
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
-			if (model.getTexture().isHasTransparency()) {
+			model.getMaterial().getDiffuse().bindToUnit(0);
+			if (model.getMaterial().isTransparent())
 				MasterRenderer.disableCulling();
-			}
 			for (Entity entity : entities.get(model)) {
 				prepareInstance(entity);
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVao().getVertexCount(),
 						GL11.GL_UNSIGNED_INT, 0);
 			}
-			if (model.getTexture().isHasTransparency()) {
+			if (model.getMaterial().isTransparent())
 				MasterRenderer.enableCulling();
-			}
+
 		}
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
 	}
 
-	private void bindModel (Vao vao) {
+	private void bindModel(Vao vao) {
 		vao.bind(0, 1);
 	}
 
-	private void prepareInstance (Entity entity) {
+	private void prepareInstance(Entity entity) {
 		Matrix4f modelMatrix = Maths.createTransformationMatrix(entity.getPosition(),
 				entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
 		Matrix4f mvpMatrix = Matrix4f.mul(projectionViewMatrix, modelMatrix, null);

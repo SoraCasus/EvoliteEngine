@@ -3,6 +3,7 @@ package com.evoliteengine.test;
 
 import com.evoliteengine.io.OBJLoader;
 import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
+import com.evoliteengine.io.objConverter.OBJFileLoader;
 import com.evoliteengine.render.DisplayManager;
 import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
@@ -14,6 +15,7 @@ import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.font.TextMaster;
 import com.evoliteengine.render.globjects.Fbo;
 import com.evoliteengine.render.globjects.Vao;
+import com.evoliteengine.render.models.Material;
 import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.renderers.GuiRenderer;
 import com.evoliteengine.render.renderers.MasterRenderer;
@@ -21,10 +23,7 @@ import com.evoliteengine.render.renderers.PostProcessing;
 import com.evoliteengine.render.renderers.WaterRenderer;
 import com.evoliteengine.render.shader.WaterShader;
 import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.texture.GuiTexture;
-import com.evoliteengine.render.texture.ModelTexture;
-import com.evoliteengine.render.texture.TerrainTexture;
-import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.render.texture.*;
 import com.evoliteengine.render.water.WaterFrameBuffers;
 import com.evoliteengine.render.water.WaterTile;
 import com.evoliteengine.util.EEFile;
@@ -47,11 +46,12 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init();
-		Vao bunnyModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"));
-		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
-				loader.loadTexture(new EEFile("textures/diffuse/playerTexture.png"))));
+		Vao playerModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"));
+		Material playerMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/playerTexture.png")).anisotropic().create());
+		TexturedModel playertm = new TexturedModel(playerModel, playerMaterial);
 
-		Player player = new Player(stanfordBunny, new Vector3f(100, 5, -150), 0, 180, 0, 0.6f);
+		Player player = new Player(playertm, new Vector3f(100, 5, -150), 0, 180, 0, 0.6f);
 		Camera camera = new Camera(player);
 
 		MasterRenderer renderer = new MasterRenderer(loader, camera);
@@ -73,27 +73,34 @@ public class MainGameLoop {
 
 		// *****************************************
 
-		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj")),
-				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/grassTexture.png"))));
-		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/grassModel.obj")),
-				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/flower.png"))));
+		Vao grassVao = OBJLoader.loadObjModel(new EEFile("models/grassModel.obj"));
+		Material grassMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/grassTexture.png")).anisotropic().create())
+				.setUseFakeLighting(true)
+				.setTransparent(true);
 
+		TexturedModel grass = new TexturedModel(grassVao, grassMaterial);
 
-		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/fern.png")));
-		fernTextureAtlas.setNumberOfRows(2);
+		Material flowerMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/flower.png")).anisotropic().create())
+				.setUseFakeLighting(true)
+				.setTransparent(true);
 
-		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/fern.obj")), fernTextureAtlas);
+		TexturedModel flowers = new TexturedModel(grassVao, flowerMaterial);
 
+		Vao fernVao = OBJLoader.loadObjModel(new EEFile("models/fern.obj"));
+		Material fernMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/fern.png")).anisotropic().create())
+				.setNumberOfRows(2)
+				.setTransparent(true);
+		TexturedModel fern = new TexturedModel(fernVao, fernMaterial);
 
-		TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/pine.obj")),
-				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/pine.png"))));
-		bobble.getTexture().setHasTransparency(true);
+		Vao bobbleVao = OBJLoader.loadObjModel(new EEFile("models/pine.obj"));
+		Material bobbleMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/pine.png")).anisotropic().create())
+				.setTransparent(true);
 
-		grass.getTexture().setHasTransparency(true);
-		grass.getTexture().setUseFakeLighting(true);
-		flower.getTexture().setHasTransparency(true);
-		flower.getTexture().setUseFakeLighting(true);
-		fern.getTexture().setHasTransparency(true);
+		TexturedModel bobble = new TexturedModel(bobbleVao, bobbleMaterial);
 
 		// Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, new EEFile("textures/terrain/heightmap/customHeightMap.png"));
 		Terrain terrain = new Terrain(0, -1, texturePack, blendMap, 256);
@@ -105,42 +112,45 @@ public class MainGameLoop {
 
 		entities.add(player);
 
-		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ(new EEFile("models/boulder.obj")),
-				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/boulder.png"))));
-		barrelModel.getTexture().setNormalMap(loader.loadTexture(new EEFile("textures/normal/boulderNormal.png")));
-		barrelModel.getTexture().setShineDamper(10);
-		barrelModel.getTexture().setReflectivity(0.5f);
+		Vao barrelVao = NormalMappedObjLoader.loadOBJ(new EEFile("models/boulder.obj"));
+		Material barrelMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/boulder.png")).anisotropic().create())
+				.setNormal(Texture.newTexture(new EEFile("textures/normal/boulderNormal.png")).create())
+				.setShineDamper(10)
+				.setReflectivity(0.5F);
+
+		TexturedModel barrelModel = new TexturedModel(barrelVao, barrelMaterial);
 
 		normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, -75), 0, 0, 0, 1f));
 
-		TexturedModel cherryModel = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/cherry.obj")),
-				new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/cherry.png"))));
-		cherryModel.getTexture().setHasTransparency(true);
-		cherryModel.getTexture().setShineDamper(10);
-		cherryModel.getTexture().setReflectivity(0.5f);
-		cherryModel.getTexture().setExtraInfoMap(loader.loadTexture(new EEFile("textures/specular/cherryS.png")));
 
-		Random random = new Random(676452);
+		Vao cherryVao = OBJLoader.loadObjModel(new EEFile("models/cherry.obj"));
+		Material cherryMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/cherry.png")).anisotropic().create())
+				.setTransparent(true)
+				.setShineDamper(10)
+				.setReflectivity(0.5F)
+				.setSpecular(Texture.newTexture(new EEFile("textures/specular/cherryS.png")).create());
+
+		TexturedModel cherryModel = new TexturedModel(cherryVao, cherryMaterial);
+
+		Random random = new Random();
 		for (int i = 0; i < 400; i++) {
-			if (i % 3 == 0) {
-				float x = random.nextFloat() * 800;
-				float z = random.nextFloat() * -600;
-				float y = terrain.getHeightOfTerrain(x, z);
 
+			float x = random.nextFloat() * 800;
+			float z = random.nextFloat() * -600;
+			float y = terrain.getHeightOfTerrain(x, z);
+			if(y <= 0) continue;
+
+			if (i % 3 == 0) {
 				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, 0.9f));
 			}
-			if (i % 1 == 0) {
-				float x = random.nextFloat() * 800;
-				float z = random.nextFloat() * -600;
-				float y = terrain.getHeightOfTerrain(x, z);
+			if (i % 2 == 0) {
 				entities.add(new Entity(bobble, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, random.nextFloat() * 1.0f + 0.6f));
 			}
 			if (i % 9 == 0) {
-				float x = random.nextFloat() * 800;
-				float z = random.nextFloat() * -600;
-				float y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(cherryModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, random.nextFloat() * 1.8f + 2.0f));
 			}
@@ -158,10 +168,15 @@ public class MainGameLoop {
 		lights.add(new Light(new Vector3f(293, terrain.getHeightOfTerrain(293, -305) + 30, -305), new Vector3f(2, 2, 0),
 				new Vector3f(1, 0.01f, 0.002f)));
 
-		ModelTexture lampTexture = new ModelTexture(loader.loadTexture(new EEFile("textures/diffuse/lantern.png")));
-		lampTexture.setUseFakeLighting(true);
-		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel(new EEFile("models/lantern.obj")), lampTexture);
-		lampTexture.setExtraInfoMap(loader.loadTexture(new EEFile("textures/specular/lanternS.png")));
+
+		Vao lampVao = OBJLoader.loadObjModel(new EEFile("models/lantern.obj"));
+		Material lampMaterial = new Material()
+				.setDiffuse(Texture.newTexture(new EEFile("textures/diffuse/lantern.png")).anisotropic().create())
+				.setSpecular(Texture.newTexture(new EEFile("textures/specular/lanternS.png")).create())
+				.setUseFakeLighting(true);
+
+		TexturedModel lamp = new TexturedModel(lampVao, lampMaterial);
+
 		entities.add(new Entity(lamp, new Vector3f(185, terrain.getHeightOfTerrain(185, -293), -293), 0, 0, 0, 1));
 		entities.add(new Entity(lamp, new Vector3f(370, terrain.getHeightOfTerrain(370, -300), -300), 0, 0, 0, 1));
 		entities.add(new Entity(lamp, new Vector3f(293, terrain.getHeightOfTerrain(293, -305), -305), 0, 0, 0, 1));

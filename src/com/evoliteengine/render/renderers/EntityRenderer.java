@@ -1,6 +1,7 @@
 package com.evoliteengine.render.renderers;
 
 import com.evoliteengine.render.entities.Entity;
+import com.evoliteengine.render.models.Material;
 import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.shader.StaticShader;
 import com.evoliteengine.render.texture.ModelTexture;
@@ -44,22 +45,23 @@ public class EntityRenderer {
 	private void prepareTexturedModel (TexturedModel model) {
 
 		model.getVao().bind(0, 1, 2);
-		ModelTexture texture = model.getTexture();
-		shader.numberOfRows.load(texture.getNumberOfRows());
-		if (texture.isHasTransparency()) {
+		Material material = model.getMaterial();
+		shader.numberOfRows.load(material.getNumberOfRows());
+		if (material.isTransparent())
 			MasterRenderer.disableCulling();
-		}
-		shader.useFakeLighting.load(texture.isUseFakeLighting());
-		shader.shineDamper.load(texture.getShineDamper());
-		shader.reflectivity.load(texture.getReflectivity());
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+
+		shader.useFakeLighting.load(material.isUseFakeLighting());
+		shader.shineDamper.load(material.getShineDamper());
+		shader.reflectivity.load(material.getReflectivity());
+
 		shader.modelTexture.load(0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
-		shader.usesSpecularMap.load(texture.hasSpecularMap());
-		if (texture.hasSpecularMap()) {
-			GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		material.getDiffuse().bindToUnit(0);
+
+		boolean hasSpecularMap = material.getSpecular() != null;
+		shader.usesSpecularMap.load(hasSpecularMap);
+		if (hasSpecularMap) {
+			material.getSpecular().bindToUnit(1);
 			shader.specularMap.load(1);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getSpecularMap());
 		}
 	}
 

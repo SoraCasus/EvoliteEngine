@@ -3,6 +3,7 @@ package com.evoliteengine.render.renderers;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
+import com.evoliteengine.render.models.Material;
 import com.evoliteengine.render.models.TexturedModel;
 import com.evoliteengine.render.shader.NormalMappingShader;
 import com.evoliteengine.render.texture.ModelTexture;
@@ -43,7 +44,7 @@ public class NormalMappingRenderer {
 				prepareInstance(entity);
 				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVao().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 			}
-			unbindTexturedModel();
+			unbindTexturedModel(model);
 		}
 		shader.stop();
 	}
@@ -55,31 +56,26 @@ public class NormalMappingRenderer {
 	private void prepareTexturedModel(TexturedModel model) {
 
 		model.getVao().bind(0, 1, 2, 3);
-		ModelTexture texture = model.getTexture();
-		shader.numberOfRows.load(texture.getNumberOfRows());
-		if (texture.isHasTransparency()) {
+		// ModelTexture texture = model.getTexture();
+		Material material = model.getMaterial();
+		shader.numberOfRows.load(material.getNumberOfRows());
+		if (material.isTransparent())
 			MasterRenderer.disableCulling();
-		}
-		shader.shineDamper.load(texture.getShineDamper());
-		shader.reflectivity.load(texture.getReflectivity());
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
-		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getNormalMap());
-		shader.usesSpecularMap.load(texture.hasSpecularMap());
-		if (texture.hasSpecularMap()) {
-			GL13.glActiveTexture(GL13.GL_TEXTURE2);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getSpecularMap());
-		}
+
+		shader.shineDamper.load(material.getShineDamper());
+		shader.reflectivity.load(material.getReflectivity());
+
+		material.getDiffuse().bindToUnit(0);
+
+		material.getNormal().bindToUnit(1);
+
+		if (material.getSpecular() != null)
+			material.getSpecular().bindToUnit(2);
 	}
 
-	private void unbindTexturedModel() {
+	private void unbindTexturedModel(TexturedModel model) {
 		MasterRenderer.enableCulling();
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
-		GL20.glDisableVertexAttribArray(3);
-		GL30.glBindVertexArray(0);
+		model.getVao().unbind(0, 1, 2, 3);
 	}
 
 	private void prepareInstance(Entity entity) {

@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated(forRemoval = true, since = "0.2.0")
 public class OBJLoader {
 
 	public static Vao loadObjModel (EEFile file) {
