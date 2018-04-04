@@ -1,8 +1,6 @@
 package com.evoliteengine.render.models;
 
 import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.texture.ModelTexture;
-import com.evoliteengine.render.texture.Texture;
 
 public class TexturedModel {
 

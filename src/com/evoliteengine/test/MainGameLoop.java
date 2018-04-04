@@ -3,7 +3,6 @@ package com.evoliteengine.test;
 
 import com.evoliteengine.io.OBJLoader;
 import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
-import com.evoliteengine.io.objConverter.OBJFileLoader;
 import com.evoliteengine.render.DisplayManager;
 import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
@@ -23,7 +22,10 @@ import com.evoliteengine.render.renderers.PostProcessing;
 import com.evoliteengine.render.renderers.WaterRenderer;
 import com.evoliteengine.render.shader.WaterShader;
 import com.evoliteengine.render.terrain.Terrain;
-import com.evoliteengine.render.texture.*;
+import com.evoliteengine.render.texture.GuiTexture;
+import com.evoliteengine.render.texture.TerrainTexture;
+import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.render.texture.Texture;
 import com.evoliteengine.render.water.WaterFrameBuffers;
 import com.evoliteengine.render.water.WaterTile;
 import com.evoliteengine.util.EEFile;
@@ -41,7 +43,7 @@ import java.util.Random;
 public class MainGameLoop {
 
 
-	public static void main (String[] args) {
+	public static void main(String[] args) {
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
@@ -140,16 +142,27 @@ public class MainGameLoop {
 			float x = random.nextFloat() * 800;
 			float z = random.nextFloat() * -600;
 			float y = terrain.getHeightOfTerrain(x, z);
-			if(y <= 0) continue;
+			if (y <= 0) continue;
+
+			if (i % 4 == 0) {
+				entities.add(new Entity(grass, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+			}
+
+			if (i % 5 == 0) {
+				entities.add(new Entity(flowers, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+			}
 
 			if (i % 3 == 0) {
 				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, 0.9f));
 			}
+
 			if (i % 2 == 0) {
 				entities.add(new Entity(bobble, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, random.nextFloat() * 1.0f + 0.6f));
+
 			}
+
 			if (i % 9 == 0) {
 				entities.add(new Entity(cherryModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360,
 						0, random.nextFloat() * 1.8f + 2.0f));

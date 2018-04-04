@@ -38,4 +38,20 @@ public class Texture implements IDisposable {
 		return new TextureBuilder(texture);
 	}
 
+
+	public int getTextureID() {
+		return textureID;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public EEFile getFile() {
+		return file;
+	}
 }
