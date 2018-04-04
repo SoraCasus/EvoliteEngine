@@ -4,7 +4,6 @@ package com.evoliteengine.test;
 import com.evoliteengine.io.OBJLoader;
 import com.evoliteengine.io.normalMappingObjConverter.NormalMappedObjLoader;
 import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
@@ -23,7 +22,6 @@ import com.evoliteengine.render.renderers.WaterRenderer;
 import com.evoliteengine.render.shader.WaterShader;
 import com.evoliteengine.render.terrain.Terrain;
 import com.evoliteengine.render.texture.GuiTexture;
-import com.evoliteengine.render.texture.TerrainTexture;
 import com.evoliteengine.render.texture.TerrainTexturePack;
 import com.evoliteengine.render.texture.Texture;
 import com.evoliteengine.render.water.WaterFrameBuffers;
@@ -43,10 +41,9 @@ import java.util.Random;
 public class MainGameLoop {
 
 
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 
 		DisplayManager.createDisplay();
-		Loader loader = new Loader();
 		TextMaster.init();
 		Vao playerModel = OBJLoader.loadObjModel(new EEFile("models/person.obj"));
 		Material playerMaterial = new Material()
@@ -56,22 +53,22 @@ public class MainGameLoop {
 		Player player = new Player(playertm, new Vector3f(100, 5, -150), 0, 180, 0, 0.6f);
 		Camera camera = new Camera(player);
 
-		MasterRenderer renderer = new MasterRenderer(loader, camera);
+		MasterRenderer renderer = new MasterRenderer(camera);
 
-		FontType font = new FontType(loader.loadTextureAtlas(new EEFile("font/candara.png")), new EEFile("font/candara.fnt"));
+		FontType font = new FontType(Texture.newTexture(new EEFile("font/candara.png")).create(), new EEFile("font/candara.fnt"));
 		GUIText text = new GUIText("This is a test text", 3, font, new Vector2f(0.0f, 0.4f), 1.0f, true);
 		text.setColour(0.1f, 0.1f, 0.1f);
 
 		// *********TERRAIN TEXTURE STUFF**********
 
-		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture(new EEFile("textures/terrain/grassy2.png")));
-		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture(new EEFile("textures/terrain/mud.png")));
-		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture(new EEFile("textures/terrain/grassFlowers.png")));
-		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture(new EEFile("textures/terrain/path.png")));
+		Texture backgroundTexture = Texture.newTexture(new EEFile("textures/terrain/grassy2.png")).anisotropic().create();
+		Texture rTexture = Texture.newTexture(new EEFile("textures/terrain/mud.png")).anisotropic().create();
+		Texture gTexture = Texture.newTexture(new EEFile("textures/terrain/grassFlowers.png")).anisotropic().create();
+		Texture bTexture = Texture.newTexture(new EEFile("textures/terrain/path.png")).anisotropic().create();
 
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
 				gTexture, bTexture);
-		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(new EEFile("textures/terrain/blendMap.png")));
+		Texture blendMap = Texture.newTexture(new EEFile("textures/terrain/blendMap.png")).create();
 
 		// *****************************************
 
@@ -170,7 +167,7 @@ public class MainGameLoop {
 		}
 
 		Light light = new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
-		List<Light> lights = new ArrayList<Light>();
+		List<Light> lights = new ArrayList<>();
 		//lights.add(light);
 		Light sun = new Light(new Vector3f(10000, 20000, -10000), new Vector3f(1.0f, 1.0f, 1.0f));
 		lights.add(sun);
@@ -207,7 +204,7 @@ public class MainGameLoop {
 
 		WaterShader waterShader = new WaterShader();
 		WaterFrameBuffers fbos = new WaterFrameBuffers();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+		WaterRenderer waterRenderer = new WaterRenderer(waterShader, renderer.getProjectionMatrix(), fbos);
 		List<WaterTile> waters = new ArrayList<>();
 		WaterTile water = new WaterTile(400, 400, 0);
 		waters.add(water);
@@ -224,7 +221,7 @@ public class MainGameLoop {
 		Fbo multisampleFbo = new Fbo(Display.getWidth(), Display.getHeight());
 		Fbo outputFbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_TEXTURE);
 		Fbo outputFbo2 = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_TEXTURE);
-		PostProcessing.init(loader);
+		PostProcessing.init();
 
 		while (!Display.isCloseRequested()) {
 			player.move(terrain);
@@ -278,7 +275,6 @@ public class MainGameLoop {
 		waterShader.delete();
 		guiRenderer.cleanUp();
 		renderer.cleanUp();
-		loader.cleanUp();
 		DisplayManager.closeDisplay();
 
 	}

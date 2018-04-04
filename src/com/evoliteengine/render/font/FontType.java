@@ -1,5 +1,6 @@
 package com.evoliteengine.render.font;
 
+import com.evoliteengine.render.texture.Texture;
 import com.evoliteengine.util.EEFile;
 
 /**
@@ -11,7 +12,7 @@ import com.evoliteengine.util.EEFile;
  */
 public class FontType {
 
-	private int textureAtlas;
+	private Texture textureAtlas;
 	private TextMeshCreator loader;
 
 	/**
@@ -24,7 +25,7 @@ public class FontType {
 	 *            - the font file containing information about each character in
 	 *            the texture atlas.
 	 */
-	public FontType(int textureAtlas, EEFile fontFile) {
+	public FontType (Texture textureAtlas, EEFile fontFile) {
 		this.textureAtlas = textureAtlas;
 		this.loader = new TextMeshCreator(fontFile);
 	}
@@ -32,7 +33,7 @@ public class FontType {
 	/**
 	 * @return The font texture atlas.
 	 */
-	public int getTextureAtlas() {
+	public Texture getTextureAtlas () {
 		return textureAtlas;
 	}
 

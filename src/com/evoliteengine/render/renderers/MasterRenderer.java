@@ -1,6 +1,5 @@
 package com.evoliteengine.render.renderers;
 
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
@@ -49,12 +48,12 @@ public class MasterRenderer {
 	private Map<TexturedModel, List<Entity>> normalMapEntities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 
-	public MasterRenderer(Loader loader, Camera cam) {
+	public MasterRenderer (Camera cam) {
 		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+		skyboxRenderer = new SkyboxRenderer(projectionMatrix);
 		normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
 		this.shadowMapRenderer = new ShadowMapMasterRenderer(cam);
 	}

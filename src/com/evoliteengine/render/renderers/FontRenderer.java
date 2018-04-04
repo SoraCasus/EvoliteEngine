@@ -4,7 +4,6 @@ import com.evoliteengine.render.font.FontType;
 import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.shader.FontShader;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,7 @@ public class FontRenderer {
 	public void render (Map<FontType, List<GUIText>> texts) {
 		prepare();
 		for (FontType font : texts.keySet()) {
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, font.getTextureAtlas());
+			font.getTextureAtlas().bindToUnit(0);
 			for (GUIText text : texts.get(font)) {
 				renderText(text);
 			}

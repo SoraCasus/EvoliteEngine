@@ -1,12 +1,12 @@
 package com.evoliteengine.render.renderers;
 
 import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.shader.SkyboxShader;
+import com.evoliteengine.render.texture.Texture;
+import com.evoliteengine.util.EEFile;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
@@ -59,25 +59,21 @@ public class SkyboxRenderer {
 			SIZE, -SIZE, SIZE
 	};
 
-	private static String[] TEXTURE_FILES = { "day/right", "day/left", "day/top", "day/bottom", "day/back", "day/front" };
-	private static String[] NIGHT_TEXTURE_FILES = { "night/nightRight", "night/nightLeft", "night/nighTtop",
-			"night/nightBottom", "night/nightBack", "night/nightFront" };
-
 	private Vao cube;
-	private int texture;
-	private int nightTexture;
+	private Texture texture;
+	private Texture nightTexture;
 	private SkyboxShader shader;
 	private float time = 0;
 
-	public SkyboxRenderer (Loader loader, Matrix4f projectionMatrix) {
+	public SkyboxRenderer (Matrix4f projectionMatrix) {
 		Vao vao = new Vao();
 		vao.bind(0);
 		vao.createAttribute(0, VERTICES, 3);
 		vao.setVertexCount(VERTICES.length / 3);
 		vao.unbind(0);
 		cube = vao;
-		texture = loader.loadCubeMap(TEXTURE_FILES);
-		nightTexture = loader.loadCubeMap(NIGHT_TEXTURE_FILES);
+		texture = Texture.newCubeMap(new EEFile("textures/skybox/day"));
+		nightTexture = Texture.newCubeMap(new EEFile("textures/skybox/night"));
 		shader = new SkyboxShader();
 		shader.start();
 		shader.cubeMap.load(0);
@@ -101,8 +97,8 @@ public class SkyboxRenderer {
 	private void bindTextures () {
 		time += DisplayManager.getFrameTimeSeconds() * 100;
 		time %= 24000;
-		int texture1;
-		int texture2;
+		Texture texture1;
+		Texture texture2;
 		float blendFactor;
 		if (time >= 0 && time < 5000) {
 			texture1 = nightTexture;
@@ -122,10 +118,9 @@ public class SkyboxRenderer {
 			blendFactor = (time - 21000) / (24000 - 21000);
 		}
 
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
-		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
+		texture1.bindToUnit(0);
+		texture2.bindToUnit(1);
+
 		shader.blendFactor.load(blendFactor);
 	}
 }

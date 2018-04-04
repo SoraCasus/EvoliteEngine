@@ -1,8 +1,8 @@
 package com.evoliteengine.render.terrain;
 
 import com.evoliteengine.render.globjects.Vao;
-import com.evoliteengine.render.texture.TerrainTexture;
 import com.evoliteengine.render.texture.TerrainTexturePack;
+import com.evoliteengine.render.texture.Texture;
 import com.evoliteengine.util.EEFile;
 import com.evoliteengine.util.Maths;
 import org.lwjgl.util.vector.Vector2f;
@@ -25,7 +25,7 @@ public class Terrain {
 	// private int gridZ;
 	private Vao model;
 	private TerrainTexturePack texturePack;
-	private TerrainTexture blendMap;
+	private Texture blendMap;
 
 	// private static Random random = new Random();
 	// private static final int SEED = random.nextInt(1000000000);
@@ -33,7 +33,7 @@ public class Terrain {
 	private float[][] heights;
 
 	public Terrain (int gridX, int gridZ, TerrainTexturePack texturePack,
-	                TerrainTexture blendMap, EEFile heightMap) {
+	                Texture blendMap, EEFile heightMap) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
@@ -44,7 +44,7 @@ public class Terrain {
 	}
 
 	public Terrain (int gridX, int gridZ, TerrainTexturePack texturePack,
-	                TerrainTexture blendMap, int numberOfVertices) {
+	                Texture blendMap, int numberOfVertices) {
 		this.texturePack = texturePack;
 		this.blendMap = blendMap;
 		this.x = gridX * SIZE;
@@ -71,7 +71,7 @@ public class Terrain {
 		return texturePack;
 	}
 
-	public TerrainTexture getBlendMap () {
+	public Texture getBlendMap () {
 		return blendMap;
 	}
 

@@ -1,11 +1,11 @@
 package com.evoliteengine.render.renderers;
 
 import com.evoliteengine.render.DisplayManager;
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.globjects.Vao;
 import com.evoliteengine.render.shader.WaterShader;
+import com.evoliteengine.render.texture.Texture;
 import com.evoliteengine.render.water.WaterFrameBuffers;
 import com.evoliteengine.render.water.WaterTile;
 import com.evoliteengine.util.EEFile;
@@ -31,15 +31,15 @@ public class WaterRenderer {
 
 	private float moveFactor = 0;
 
-	private int dudvTexture;
-	private int normalMap;
+	private Texture dudvTexture;
+	private Texture normalMap;
 
-	public WaterRenderer (Loader loader, WaterShader shader, Matrix4f projectionMatrix,
+	public WaterRenderer (WaterShader shader, Matrix4f projectionMatrix,
 	                      WaterFrameBuffers fbos) {
 		this.shader = shader;
 		this.fbos = fbos;
-		dudvTexture = loader.loadTexture(DUDV_MAP);
-		normalMap = loader.loadTexture(NORMAL_MAP);
+		dudvTexture = Texture.newTexture(DUDV_MAP).anisotropic().create();
+		normalMap = Texture.newTexture(NORMAL_MAP).anisotropic().create();
 		shader.start();
 		shader.projMat.load(projectionMatrix);
 		shader.stop();
@@ -69,21 +69,27 @@ public class WaterRenderer {
 
 		quad.bind(0);
 
+		// Todo(Sora): Move FBO's to new Texture system
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getReflectionTexture());
 		shader.reflectionTexture.load(0);
+
+		// Todo(Sora): Move FBO's to new Texture system
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getRefractionTexture());
 		shader.refractionTexture.load(1);
-		GL13.glActiveTexture(GL13.GL_TEXTURE2);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, dudvTexture);
+
+		dudvTexture.bindToUnit(2);
 		shader.dudvMap.load(2);
-		GL13.glActiveTexture(GL13.GL_TEXTURE3);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, normalMap);
+
+		normalMap.bindToUnit(3);
 		shader.normalMap.load(3);
+
+		// Todo(Sora): Move FBO's to new Texture system
 		GL13.glActiveTexture(GL13.GL_TEXTURE4);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fbos.getRefractionDepthTexture());
 		shader.depthMap.load(4);
+
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}

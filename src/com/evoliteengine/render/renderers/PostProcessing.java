@@ -1,6 +1,5 @@
 package com.evoliteengine.render.renderers;
 
-import com.evoliteengine.render.Loader;
 import com.evoliteengine.render.globjects.Vao;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +16,7 @@ public class PostProcessing {
 	private static BrightFilterRenderer brightFilter;
 	private static CombineFilterRenderer combineFilter;
 
-	public static void init (Loader loader) {
+	public static void init () {
 		Vao vao = new Vao();
 		vao.bind(0);
 		vao.createAttribute(0, POSITIONS, 2);

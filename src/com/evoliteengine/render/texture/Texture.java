@@ -38,6 +38,11 @@ public class Texture implements IDisposable {
 		return new TextureBuilder(texture);
 	}
 
+	public static Texture newCubeMap (EEFile directory) {
+		int texID = TextureUtils.loadCubeMap(directory);
+		return new Texture(texID, 0, GL13.GL_TEXTURE_CUBE_MAP, directory);
+	}
+
 
 	public int getTextureID() {
 		return textureID;
