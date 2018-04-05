@@ -15,13 +15,14 @@ Todo:
 - [x] Transfer shaders to new system
 - [x] Vao/Vbo management
 - [x] Remove Loader class entirely (Kill the beast!)
+- [ ] Migrate to LWJGL 3
+- [ ] Game loop & Time
 - [ ] Scene graph system
     - [ ] Component based rendering
 - [ ] Rebuild Particle System (It did not survive VAO / VBO Migration)
 - [ ] Merge OBJ File input (normal mapped and standard OBJ's)
 - [ ] Reorganize code
 - [ ] Logging system
-- [ ] Game loop & Time
 - [ ] Smooth Shadows
 
 Bugs:

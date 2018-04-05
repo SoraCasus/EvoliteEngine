@@ -8,8 +8,6 @@ import com.evoliteengine.render.entities.Camera;
 import com.evoliteengine.render.entities.Entity;
 import com.evoliteengine.render.entities.Light;
 import com.evoliteengine.render.entities.Player;
-import com.evoliteengine.render.font.FontType;
-import com.evoliteengine.render.font.GUIText;
 import com.evoliteengine.render.font.TextMaster;
 import com.evoliteengine.render.globjects.Fbo;
 import com.evoliteengine.render.globjects.Vao;
@@ -30,7 +28,6 @@ import com.evoliteengine.util.EEFile;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -55,9 +52,9 @@ public class MainGameLoop {
 
 		MasterRenderer renderer = new MasterRenderer(camera);
 
-		FontType font = new FontType(Texture.newTexture(new EEFile("font/candara.png")).create(), new EEFile("font/candara.fnt"));
-		GUIText text = new GUIText("This is a test text", 3, font, new Vector2f(0.0f, 0.4f), 1.0f, true);
-		text.setColour(0.1f, 0.1f, 0.1f);
+		// FontType font = new FontType(Texture.newTexture(new EEFile("font/candara.png")).create(), new EEFile("font/candara.fnt"));
+		// GUIText text = new GUIText("This is a test text", 3, font, new Vector2f(0.0f, 0.4f), 1.0f, true);
+		// text.setColour(0.1f, 0.1f, 0.1f);
 
 		// *********TERRAIN TEXTURE STUFF**********
 
